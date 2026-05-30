@@ -167,7 +167,7 @@ const password =
 document.getElementById("password").value;
 
 if(email=="" || password==""){
-alert("Please enter email and password");
+showPopup("Please enter email and password");
 return;
 }
 
@@ -179,23 +179,94 @@ password
 
 .then((userCredential) => {
 
-alert("Login Successful");
-
+showPopup("Login Successful");
+document.querySelector("#customPopup button").onclick = function() {
+closePopup();
+window.location.href = "apply.html";
+};
 // Redirect to apply page
-window.location.href =
-"apply.html";
 
 })
 
 .catch((error)=>{
 
-alert(error.message);
+showPopup(error.message);
 
 });
 
 }
 
 </script>
+<div id="customPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <img src="1000174411.png" class="popup-logo">
+    <h2>Indupalli Services</h2>
+    <p id="popupMessage"></p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
 
+<style>
+.popup-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.popup-box{
+background:white;
+width:85%;
+max-width:350px;
+border-radius:20px;
+padding:25px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+border-top:6px solid #0056d2;
+}
+
+.popup-logo{
+width:120px;
+margin-bottom:15px;
+}
+
+.popup-box h2{
+color:#003b99;
+margin-bottom:10px;
+}
+
+.popup-box p{
+font-size:18px;
+color:#333;
+margin-bottom:20px;
+}
+
+.popup-box button{
+background:#0056d2;
+color:white;
+border:none;
+padding:12px 30px;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+}
+</style>
+
+<script>
+function showPopup(message){
+document.getElementById("popupMessage").innerText = message;
+document.getElementById("customPopup").style.display = "flex";
+}
+
+function closePopup(){
+document.getElementById("customPopup").style.display = "none";
+}
+</script>
 </body>
 </html>

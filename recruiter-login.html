@@ -137,7 +137,67 @@ class="register-btn"
 onclick="openRegister()">
 Recruiter Register
 </button>
+</div>
 
+<!-- Professional Popup -->
+<div id="popup"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+
+<div style="
+background:white;
+padding:30px;
+border-radius:20px;
+width:90%;
+max-width:350px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+">
+
+<img src="1000174411.png"
+style="
+width:90px;
+margin-bottom:15px;
+">
+
+<h2 style="
+color:#0056d2;
+margin-bottom:10px;
+">
+Indupalli Services
+</h2>
+
+<p id="popupText"
+style="
+font-size:16px;
+color:#333;
+margin-bottom:20px;">
+</p>
+
+<button
+onclick="closePopup()"
+style="
+background:#0056d2;
+color:white;
+border:none;
+padding:12px 30px;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;">
+OK
+</button>
+
+</div>
 </div>
 
 <script type="module">
@@ -177,18 +237,29 @@ initializeApp(firebaseConfig);
 const auth =
 getAuth(app);
 
+// Login Function
 window.login =
 function(){
 
 const email =
 document.getElementById(
 "email"
-).value;
+).value.trim();
 
 const password =
 document.getElementById(
 "password"
-).value;
+).value.trim();
+
+if(
+email==="" ||
+password===""
+){
+showPopup(
+"Please enter email and password"
+);
+return;
+}
 
 signInWithEmailAndPassword(
 auth,
@@ -198,34 +269,65 @@ password
 
 .then(() => {
 
-alert(
+showPopup(
 "Login Successful"
 );
 
-location.replace(
-"recruiter-dashboard.html"
-);
+document.querySelector(
+"#popup button"
+).onclick =
+function(){
+
+closePopup();
+
+window.location.href =
+"recruiter-dashboard.html";
+
+};
 
 })
 
 .catch((error)=>{
 
-alert(
+showPopup(
 error.message
 );
 
 });
 
-}
+};
 
+// Open Register
 window.openRegister =
 function(){
 
-location.replace(
-"recruiter-register.html"
-);
+window.location.href =
+"recruiter-register.html";
 
-}
+};
+
+// Popup Functions
+window.showPopup =
+function(message){
+
+document.getElementById(
+"popupText"
+).innerText = message;
+
+document.getElementById(
+"popup"
+).style.display = "flex";
+
+};
+
+window.closePopup =
+function(){
+
+document.getElementById(
+"popup"
+).style.display = "none";
+
+};
 
 </script>
 
