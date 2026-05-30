@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Indupalli Services - Apply Jobs
+</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:
+linear-gradient(
+135deg,
+#003366,
+#0056d2,
+#1e90ff
+);
+min-height:100vh;
+padding:20px;
+}
+
+.container{
+max-width:950px;
+margin:auto;
+background:#fff;
+border-radius:25px;
+padding:35px;
+box-shadow:
+0 8px 30px
+rgba(0,0,0,0.25);
+}
+
+.logo{
+width:130px;
+display:block;
+margin:auto;
+margin-bottom:15px;
+}
+
+.company-name{
+text-align:center;
+font-size:38px;
+font-weight:bold;
+color:#0056d2;
+}
+
+.heading{
+text-align:center;
+font-size:30px;
+margin-top:10px;
+font-weight:bold;
+color:#003366;
+}
+
+.description{
+text-align:center;
+color:#555;
+line-height:28px;
+margin-top:15px;
+margin-bottom:35px;
+font-size:16px;
+}
+
+.profile-section{
+background:#eef5ff;
+padding:30px;
+border-radius:20px;
+margin-bottom:35px;
+}
+
+.profile-section h2{
+text-align:center;
+color:#0056d2;
+margin-bottom:25px;
+font-size:28px;
+}
+
+.form-group{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+color:#003366;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:15px;
+border:2px solid #d6e4ff;
+border-radius:12px;
+font-size:16px;
+background:#fff;
+}
+
+textarea{
+resize:none;
+}
+
+.submit-btn{
+width:100%;
+padding:18px;
+background:#0056d2;
+color:#fff;
+font-size:20px;
+font-weight:bold;
+border:none;
+border-radius:12px;
+cursor:pointer;
+margin-top:25px;
+}
+
+.submit-btn:hover{
+background:#003ea8;
+}
+
+.job-title{
+text-align:center;
+font-size:32px;
+color:#0056d2;
+margin-bottom:20px;
+}
+
+.job-card{
+background:#eef5ff;
+padding:20px;
+border-radius:18px;
+margin-bottom:20px;
+border-left:
+6px solid #0056d2;
+box-shadow:
+0 4px 10px
+rgba(0,0,0,0.08);
+}
+
+.job-card h3{
+color:#0056d2;
+margin-bottom:10px;
+font-size:24px;
+}
+
+.job-card p{
+color:#444;
+line-height:26px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="1000174411.png"
+class="logo">
+
+<div class="company-name">
+Indupalli Services
+</div>
+
+<div class="heading">
+Job Application Portal
+</div>
+
+<p class="description">
+
+Welcome to
+Indupalli Services
+Career Portal.
+
+Complete your profile,
+upload your resume
+and apply for your
+desired job role.
+
+Our recruitment team
+carefully reviews
+all applications.
+
+</p>
+
+<div class="profile-section">
+
+<h2>
+Candidate Profile
+</h2>
+
+<div class="form-group">
+<label>
+Full Name
+</label>
+
+<input
+type="text"
+id="fullname"
+placeholder="Enter Full Name">
+</div>
+
+<div class="form-group">
+<label>
+Email Address
+</label>
+
+<input
+type="email"
+id="email"
+placeholder="Enter Email">
+</div>
+
+<div class="form-group">
+<label>
+Phone Number
+</label>
+
+<input
+type="tel"
+id="phone"
+placeholder="Enter Phone Number">
+</div>
+
+<div class="form-group">
+<label>
+Current Location
+</label>
+
+<input
+type="text"
+id="location"
+placeholder="Enter Location">
+</div>
+
+<div class="form-group">
+<label>
+Years of Experience
+</label>
+
+<input
+type="text"
+id="experience"
+placeholder="Example: 2 Years">
+</div>
+
+<div class="form-group">
+<label>
+Skills
+</label>
+
+<input
+type="text"
+id="skills"
+placeholder="Java, HR, Support">
+</div>
+
+<div class="form-group">
+<label>
+Select Job Role
+</label>
+
+<select id="jobRole">
+
+<option>
+Select Role
+</option>
+
+<option>
+Customer Support Executive
+</option>
+
+<option>
+Backend Developer
+</option>
+
+<option>
+HR Recruiter
+</option>
+
+<option>
+Sales Executive
+</option>
+
+<option>
+Marketing Executive
+</option>
+
+</select>
+</div>
+
+<div class="form-group">
+
+<label>
+Upload Profile Photo
+</label>
+
+<input
+type="file"
+id="profilePhoto"
+accept="image/*">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Upload Resume
+(PDF/DOC)
+</label>
+
+<input
+type="file"
+id="resume"
+accept=".pdf,.doc,.docx">
+
+</div>
+
+<div class="form-group">
+
+<label>
+About Yourself
+</label>
+
+<textarea
+id="about"
+rows="5"
+placeholder=
+"Tell us about yourself">
+</textarea>
+
+</div><button class="submit-btn"
+onclick="submitApplication()">
+Submit Application
+</button>
+
+</div>
+
+<h2 class="job-title">
+Current Job Openings
+</h2>
+
+<div class="job-card">
+<h3>Customer Support Executive</h3>
+<p>📍 Hyderabad</p>
+<p>
+Provide excellent customer support and resolve customer issues professionally.
+</p>
+
+<button class="submit-btn"
+onclick="applyJob('Customer Support Executive')">
+Apply Now
+</button>
+</div>
+
+<div class="job-card">
+<h3>Backend Developer</h3>
+<p>📍 Bangalore</p>
+<p>
+Develop APIs, backend systems and scalable applications.
+</p>
+
+<button class="submit-btn"
+onclick="applyJob('Backend Developer')">
+Apply Now
+</button>
+</div>
+
+<div class="job-card">
+<h3>HR Recruiter</h3>
+<p>📍 Remote</p>
+<p>
+Handle recruitment, sourcing and candidate communication.
+</p>
+
+<button class="submit-btn"
+onclick="applyJob('HR Recruiter')">
+Apply Now
+</button>
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+getStorage,
+ref,
+uploadBytes,
+getDownloadURL
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+authDomain:
+"indupalli-services-18404.firebaseapp.com",
+
+projectId:
+"indupalli-services-18404",
+
+storageBucket:
+"indupalli-services-18404.firebasestorage.app",
+
+messagingSenderId:
+"187485195719",
+
+appId:
+"1:187485195719:web:a2f422b12c47ea2d549de2"
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+const storage =
+getStorage(app);
+
+// Apply Job Auto Select
+window.applyJob =
+function(job){
+
+document.getElementById(
+"jobRole"
+).value = job;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+alert(
+"You selected: "
++ job +
+"\n\nComplete profile and click Submit Application."
+);
+
+}
+
+// Submit Application
+window.submitApplication =
+async function(){
+
+let fullname =
+document.getElementById(
+"fullname"
+).value;
+
+let email =
+document.getElementById(
+"email"
+).value;
+
+let phone =
+document.getElementById(
+"phone"
+).value;
+
+let location =
+document.getElementById(
+"location"
+).value;
+
+let experience =
+document.getElementById(
+"experience"
+).value;
+
+let skills =
+document.getElementById(
+"skills"
+).value;
+
+let jobRole =
+document.getElementById(
+"jobRole"
+).value;
+
+let about =
+document.getElementById(
+"about"
+).value;
+
+let profilePhoto =
+document.getElementById(
+"profilePhoto"
+).files[0];
+
+let resume =
+document.getElementById(
+"resume"
+).files[0];
+
+if(
+fullname=="" ||
+email=="" ||
+phone=="" ||
+location=="" ||
+experience=="" ||
+skills=="" ||
+jobRole=="Select Role"
+){
+alert(
+"Please fill all details"
+);
+return;
+}
+
+try{
+
+// Unique ID
+let lastId =
+localStorage.getItem(
+"applicationId"
+) || 711;
+
+lastId++;
+
+localStorage.setItem(
+"applicationId",
+lastId
+);
+
+let applicationId =
+String(lastId)
+.padStart(5,'0');
+
+// Upload Profile Photo
+let profileUrl = "";
+
+if(profilePhoto){
+
+const profileRef =
+ref(
+storage,
+"profilePhotos/" +
+Date.now() +
+profilePhoto.name
+);
+
+await uploadBytes(
+profileRef,
+profilePhoto
+);
+
+profileUrl =
+await getDownloadURL(
+profileRef
+);
+
+}
+
+// Upload Resume
+let resumeUrl = "";
+
+if(resume){
+
+const resumeRef =
+ref(
+storage,
+"resumes/" +
+Date.now() +
+resume.name
+);
+
+await uploadBytes(
+resumeRef,
+resume
+);
+
+resumeUrl =
+await getDownloadURL(
+resumeRef
+);
+
+}
+
+// Save in Firebase
+await addDoc(
+collection(
+db,
+"jobApplications"
+),
+{
+applicationId:
+applicationId,
+
+fullname:
+fullname,
+
+email:
+email,
+
+phone:
+phone,
+
+location:
+location,
+
+experience:
+experience,
+
+skills:
+skills,
+
+jobRole:
+jobRole,
+
+about:
+about,
+
+profilePhoto:
+profileUrl,
+
+resume:
+resumeUrl,
+
+submittedAt:
+new Date()
+}
+);
+
+alert(
+"Application Submitted Successfully!\n\nApplication ID: "
++ applicationId
+);
+
+window.location.reload();
+
+}catch(error){
+alert(error.message);
+}
+
+}
+
+</script>
+
+</body>
+</html>

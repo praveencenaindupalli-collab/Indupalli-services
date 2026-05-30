@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Recruiter Dashboard</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#003366,#0056ff,#1e90ff);
+padding:20px;
+min-height:100vh;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:35px;
+border-radius:25px;
+box-shadow:0 8px 25px rgba(0,0,0,0.25);
+}
+
+.logo{
+width:120px;
+display:block;
+margin:auto;
+margin-bottom:20px;
+}
+
+h1{
+text-align:center;
+color:#0056ff;
+margin-bottom:10px;
+font-size:34px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:30px;
+line-height:28px;
+font-size:16px;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:15px;
+margin:12px 0;
+border:2px solid #d6e4ff;
+border-radius:12px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:16px;
+background:#0056ff;
+color:white;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#003ec9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="1000174411.png"
+class="logo"
+alt="Logo">
+
+<h1>Recruiter Dashboard</h1>
+
+<p class="subtitle">
+Post jobs and manage hiring requirements.
+</p>
+<input
+type="text"
+id="jobTitle"
+placeholder="Job Title">
+
+<button onclick="generateJD()"
+style="
+width:100%;
+padding:14px;
+background:#28a745;
+color:white;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+margin-top:10px;
+cursor:pointer;
+">
+
+Generate JD with AI
+
+</button>
+<input
+type="text"
+id="location"
+placeholder="Location">
+
+<input
+type="number"
+id="salary"
+placeholder="Salary in ₹ INR">
+
+<input
+type="text"
+id="experience"
+placeholder="Experience Required">
+
+<select id="jobType">
+<option>Full Time</option>
+<option>Part Time</option>
+<option>Contract</option>
+<option>Remote</option>
+</select>
+
+<textarea
+id="description"
+placeholder="Job Description"
+maxlength="450"
+style="height:220px;">
+</textarea>
+
+<p id="wordCount"
+style="
+text-align:right;
+color:gray;
+font-size:14px;
+margin-top:5px;">
+0 / 450
+</p>
+
+<script>
+const description =
+document.getElementById("description");
+
+const wordCount =
+document.getElementById("wordCount");
+
+description.addEventListener(
+"input",
+function(){
+
+wordCount.innerText =
+description.value.length +
+" / 450";
+
+});
+</script>
+
+<button onclick="addJob()">
+Post Job
+</button>
+<h2 style="margin-top:30px;color:#0056ff;">
+Manage Posted Jobs
+</h2>
+
+<div id="jobList"
+style="
+margin-top:15px;
+padding:15px;
+border:2px solid #d6e4ff;
+border-radius:12px;
+background:#f8fbff;
+">
+No jobs posted yet.
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+authDomain: "indupalli-services-18404.firebaseapp.com",
+projectId: "indupalli-services-18404",
+storageBucket: "indupalli-services-18404.firebasestorage.app",
+messagingSenderId: "187485195719",
+appId: "1:187485195719:web:a2f422b12c47ea2d549de2"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Generate JD
+window.generateJD = function(){
+
+const title =
+document.getElementById("jobTitle").value;
+
+const description =
+document.getElementById("description");
+
+if(title.trim() === ""){
+alert("Enter Job Title First");
+return;
+}
+
+description.value =
+"We are hiring a " + title + " to join our growing team.\n\n" +
+
+"Key Responsibilities:\n" +
+"• Handle day-to-day " + title + " responsibilities\n" +
+"• Collaborate with internal teams\n" +
+"• Maintain work quality and deadlines\n" +
+"• Prepare reports and documentation\n\n" +
+
+"Required Skills:\n" +
+"• Good communication skills\n" +
+"• Technical/domain knowledge\n" +
+"• Teamwork and problem solving\n" +
+"• Time management\n\n" +
+
+"Preferred Qualifications:\n" +
+"• Relevant experience in " + title + "\n" +
+"• Professional attitude";
+};
+
+// Post Job
+window.addJob = async function(){
+
+const title =
+document.getElementById("jobTitle").value;
+
+const location =
+document.getElementById("location").value;
+
+const salary =
+document.getElementById("salary").value;
+
+const experience =
+document.getElementById("experience").value;
+
+const jobType =
+document.getElementById("jobType").value;
+
+const description =
+document.getElementById("description").value;
+
+if(
+title=="" ||
+location=="" ||
+salary==""
+){
+alert("Please fill all details");
+return;
+}
+
+await addDoc(
+collection(db,"jobs"),
+{
+title,
+location,
+salary,
+experience,
+jobType,
+description
+}
+);
+
+alert("Job Posted Successfully");
+const jobList =
+document.getElementById("jobList");
+
+jobList.innerHTML += `
+<div style="
+border:1px solid #ddd;
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+background:white;
+">
+
+<h3>${title}</h3>
+<p><b>Location:</b> ${location}</p>
+<p><b>Salary:</b> ₹${salary}</p>
+<p><b>Experience:</b> ${experience}</p>
+<p><b>Type:</b> ${jobType}</p>
+
+</div>
+`;
+document.getElementById("jobTitle").value="";
+document.getElementById("location").value="";
+document.getElementById("salary").value="";
+document.getElementById("experience").value="";
+document.getElementById("description").value="";
+};
+
+</script>

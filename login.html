@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Job Seeker Login</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(
+135deg,
+#003366,
+#0056d2,
+#1e90ff
+);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+background:#fff;
+width:100%;
+max-width:500px;
+padding:35px;
+border-radius:25px;
+box-shadow:
+0 8px 30px rgba(0,0,0,0.3);
+text-align:center;
+}
+
+.logo{
+width:120px;
+margin-bottom:15px;
+}
+
+.company-name{
+font-size:32px;
+font-weight:bold;
+color:#0056d2;
+margin-bottom:10px;
+}
+
+.description{
+font-size:14px;
+color:#555;
+line-height:24px;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:15px;
+margin:10px 0;
+border:2px solid #d6e4ff;
+border-radius:12px;
+background:#eef4ff;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:16px;
+background:#0056d2;
+border:none;
+color:#fff;
+font-size:18px;
+font-weight:bold;
+border-radius:12px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#003ea8;
+}
+
+h2{
+margin-bottom:15px;
+color:#003366;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="1000174411.png"
+class="logo"
+alt="Logo">
+
+<div class="company-name">
+Indupalli Services
+</div>
+
+<h2>Job Seeker Portal</h2>
+
+<p class="description">
+Welcome to Indupalli Services Career Portal.
+Create your account or login to explore career opportunities.
+Please use a valid email and password.
+After login, you can apply for jobs and upload your resume.
+</p>
+
+<input
+type="email"
+id="email"
+placeholder="Email Address">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<button onclick="login()">
+Login
+</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+authDomain: "indupalli-services-18404.firebaseapp.com",
+projectId: "indupalli-services-18404",
+storageBucket: "indupalli-services-18404.firebasestorage.app",
+messagingSenderId: "187485195719",
+appId: "1:187485195719:web:a2f422b12c47ea2d549de2"
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+// Login Function
+window.login = function(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+if(email=="" || password==""){
+alert("Please enter email and password");
+return;
+}
+
+signInWithEmailAndPassword(
+auth,
+email,
+password
+)
+
+.then((userCredential) => {
+
+alert("Login Successful");
+
+// Redirect to apply page
+window.location.href =
+"apply.html";
+
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
