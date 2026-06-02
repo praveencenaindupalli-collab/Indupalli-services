@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Recruiter Dashboard
+</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Calibri, Arial, sans-serif;
+}
+
+body{
+background:
+linear-gradient(
+135deg,
+#003366,
+#0056d2,
+#1e90ff
+);
+padding:20px;
+min-height:100vh;
+}
+
+.container{
+max-width:950px;
+margin:auto;
+background:white;
+padding:35px;
+border-radius:25px;
+box-shadow:
+0 8px 25px
+rgba(0,0,0,0.25);
+}
+
+.logo{
+width:120px;
+display:block;
+margin:auto;
+margin-bottom:15px;
+}
+
+h1{
+text-align:center;
+font-size:36px;
+color:#0056d2;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+font-size:16px;
+line-height:28px;
+margin-bottom:30px;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:15px;
+margin:12px 0;
+border:2px solid #d6e4ff;
+border-radius:12px;
+font-size:16px;
+background:#eef4ff;
+}
+
+textarea{
+height:220px;
+resize:none;
+}
+
+button{
+width:100%;
+padding:16px;
+background:#0056d2;
+border:none;
+color:white;
+font-size:18px;
+font-weight:bold;
+border-radius:12px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#003ea8;
+}
+
+.ai-btn{
+background:#28a745;
+}
+
+.ai-btn:hover{
+background:#218838;
+}
+
+.manage-title{
+margin-top:35px;
+color:#0056d2;
+font-size:32px;
+text-align:center;
+}
+
+#jobList{
+margin-top:20px;
+padding:20px;
+border-radius:15px;
+background:#eef4ff;
+border:2px solid #d6e4ff;
+}
+
+.job-card{
+background:white;
+padding:20px;
+border-radius:15px;
+margin-top:15px;
+box-shadow:
+0 4px 10px
+rgba(0,0,0,0.08);
+border-left:6px solid #0056d2;
+}
+
+.archive-btn{
+background:red;
+margin-top:15px;
+}
+
+.archive-btn:hover{
+background:darkred;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="1000174411.png"
+class="logo">
+
+<h1>
+Indupalli Services
+</h1>
+
+<p class="subtitle">
+Recruiter Management Dashboard
+</p>
+
+<div style="
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin-top:20px;
+margin-bottom:20px;
+">
+
+<div style="
+background:#0056d2;
+color:white;
+padding:15px;
+border-radius:12px;
+width:33%;
+text-align:center;
+">
+<h3>Total Jobs</h3>
+<p id="totalJobs">0</p>
+</div>
+
+<div style="
+background:#00c853;
+color:white;
+padding:15px;
+border-radius:12px;
+width:33%;
+text-align:center;
+">
+<h3>Active</h3>
+<p id="activeJobs">0</p>
+</div>
+
+<div style="
+background:#ff4d4d;
+color:white;
+padding:15px;
+border-radius:12px;
+width:33%;
+text-align:center;
+">
+<h3>Archived</h3>
+<p id="archivedJobs">0</p>
+</div>
+
+</div>
+
+<input
+type="text"
+id="jobTitle"
+placeholder="Job Title">
+
+<button
+class="ai-btn"
+onclick="generateJD()">
+
+Generate JD with AI
+
+</button>
+
+<input
+type="text"
+id="location"
+placeholder="Location">
+
+<input
+type="number"
+id="salary"
+placeholder="Salary in ₹ INR">
+
+<input
+type="text"
+id="experience"
+placeholder="Experience Required">
+
+<select id="jobType">
+
+<option>
+Full Time
+</option>
+
+<option>
+Part Time
+</option>
+
+<option>
+Contract
+</option>
+
+<option>
+Remote
+</option>
+
+</select>
+
+<textarea
+id="description"
+placeholder="Job Description"
+maxlength="450">
+</textarea>
+
+<p id="wordCount"
+style="
+text-align:right;
+color:gray;
+font-size:14px;
+">
+0 / 450
+</p>
+
+<button onclick="addJob()">
+Post Job
+</button>
+
+<h2 class="manage-title">
+Manage Posted Jobs
+</h2>
+
+<div id="jobList">
+No jobs posted yet.
+</div>
+
+</div>
+<!-- Professional Popup -->
+<div id="popup"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+
+<div style="
+background:white;
+padding:30px;
+border-radius:20px;
+width:90%;
+max-width:350px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+">
+
+<img src="1000174411.png"
+style="
+width:90px;
+margin-bottom:15px;
+">
+
+<h2 style="
+color:#0056d2;
+margin-bottom:10px;
+">
+Indupalli Services
+</h2>
+
+<p id="popupText"
+style="
+font-size:16px;
+color:#333;
+margin-bottom:20px;">
+</p>
+
+<button onclick="closePopup()"
+style="
+background:#0056d2;
+color:white;
+border:none;
+padding:12px 30px;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;">
+OK
+</button>
+
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+updateDoc,
+doc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey:
+"AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+
+authDomain:
+"indupalli-services-18404.firebaseapp.com",
+
+projectId:
+"indupalli-services-18404",
+
+storageBucket:
+"indupalli-services-18404.firebasestorage.app",
+
+messagingSenderId:
+"187485195719",
+
+appId:
+"1:187485195719:web:a2f422b12c47ea2d549de2"
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+// Word Count
+const description =
+document.getElementById(
+"description"
+);
+
+const wordCount =
+document.getElementById(
+"wordCount"
+);
+
+description.addEventListener(
+"input",
+function(){
+
+wordCount.innerText =
+description.value.length +
+" / 450";
+
+});
+
+// AI JD Generator
+window.generateJD =
+function(){
+
+const title =
+document.getElementById(
+"jobTitle"
+).value;
+
+if(title.trim()===""){
+showPopup(
+"Enter Job Title First"
+);
+return;
+}
+
+document.getElementById(
+"description"
+).value =
+
+"We are hiring a " +
+title +
+" to join our growing team.\n\n" +
+
+"Key Responsibilities:\n" +
+"• Handle day-to-day " +
+title +
+" responsibilities\n" +
+"• Collaborate with internal teams\n" +
+"• Maintain work quality and deadlines\n\n" +
+
+"Required Skills:\n" +
+"• Communication skills\n" +
+"• Teamwork\n" +
+"• Problem solving\n\n" +
+
+"Preferred Qualifications:\n" +
+"• Experience in " +
+title;
+wordCount.innerText =
+document.getElementById("description").value.length +
+" / 450";
+};
+
+// Post Job
+window.addJob =
+async function(){
+
+const title =
+document.getElementById(
+"jobTitle"
+).value.trim();
+
+const jobLocation =
+document.getElementById("location").value.trim();
+
+const salary =
+document.getElementById(
+"salary"
+).value.trim();
+
+const experience =
+document.getElementById(
+"experience"
+).value.trim();
+
+const jobType =
+document.getElementById(
+"jobType"
+).value;
+
+const description =
+document.getElementById(
+"description"
+).value.trim();
+
+if(
+title==="" ||
+jobLocation==="" ||
+salary===""
+){
+showPopup(
+"Please fill all details"
+);
+return;
+}
+
+try{
+
+await addDoc(
+collection(db,"jobs"),
+{
+title,
+location: jobLocation,
+salary,
+experience,
+jobType,
+description,
+
+postedBy:
+localStorage.getItem("recruiterEmail") || "Recruiter",
+
+postedOn:
+new Date()
+.toLocaleDateString(
+"en-GB",
+{
+day:"numeric",
+month:"short",
+year:"numeric"
+}
+),
+
+isArchived:
+false
+}
+);
+
+showPopup(
+"Job Posted Successfully"
+);
+
+location.reload();
+
+}catch(error){
+
+showPopup(
+error.message
+);
+
+}
+
+};
+
+// Load Jobs After Relogin
+window.onload = async function(){
+
+const recruiterName =
+localStorage.getItem("recruiterName") || "Recruiter";
+
+const querySnapshot =
+await getDocs(
+collection(db,"jobs")
+);
+
+const jobList =
+document.getElementById("jobList");
+
+jobList.innerHTML = "";
+let totalJobs = 0;
+let activeJobs = 0;
+let archivedJobs = 0;
+querySnapshot.forEach((job)=>{
+
+const data = job.data();
+
+const isAdmin =
+localStorage.getItem("isAdmin");
+totalJobs++;
+
+if(data.isArchived){
+archivedJobs++;
+}else{
+activeJobs++;
+}
+if(
+isAdmin !== "true" &&
+data.postedBy !== localStorage.getItem("recruiterEmail")
+){
+return;
+}
+
+jobList.innerHTML += `
+<div class="job-card">
+
+<h3>${data.title}</h3>
+
+<p><b>Posted By:</b> ${data.postedBy}</p>
+
+<p><b>Posted On:</b> ${data.postedOn}</p>
+
+<p><b>Location:</b> ${data.location}</p>
+
+<p><b>Salary:</b> ₹${data.salary}</p>
+
+<p><b>Experience:</b> ${data.experience}</p>
+
+<p><b>Status:</b>
+${data.isArchived ? "Archived" : "Active"}
+</p>
+
+${
+data.isArchived
+?
+`<button
+style="background:green;"
+class="archive-btn"
+onclick="unarchiveJob('${job.id}')">
+Unarchive Job
+</button>`
+:
+`<button
+class="archive-btn"
+onclick="archiveJob('${job.id}')">
+Archive Job
+</button>`
+}
+
+</div>
+`;
+
+});
+document.getElementById("totalJobs").innerText = totalJobs;
+
+document.getElementById("activeJobs").innerText = activeJobs;
+
+document.getElementById("archivedJobs").innerText = archivedJobs;
+if(jobList.innerHTML===""){
+jobList.innerHTML =
+"No jobs posted yet.";
+}
+
+};
+// Archive Job
+window.archiveJob =
+async function(jobId){
+
+await updateDoc(
+doc(db,"jobs",jobId),
+{
+isArchived:true
+}
+);
+
+showPopup(
+"Job Archived Successfully"
+);
+
+setTimeout(()=>{
+window.location.reload();
+},1000);
+
+};
+window.unarchiveJob =
+async function(jobId){
+
+await updateDoc(
+doc(db,"jobs",jobId),
+{
+isArchived:false
+}
+);
+
+showPopup(
+"Job Unarchived Successfully"
+);
+
+setTimeout(()=>{
+window.location.reload();
+},1000);
+
+};
+
+// Popup
+window.showPopup =
+function(message){
+
+document.getElementById(
+"popupText"
+).innerText = message;
+
+document.getElementById(
+"popup"
+).style.display = "flex";
+
+};
+
+window.closePopup =
+function(){
+
+document.getElementById(
+"popup"
+).style.display = "none";
+
+};
+
+</script>
+
+</body>
+</html>

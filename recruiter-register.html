@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Recruiter Register
+</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Calibri, Arial, sans-serif;
+}
+
+body{
+background:
+linear-gradient(
+135deg,
+#003366,
+#0056d2,
+#1e90ff
+);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+background:#fff;
+width:100%;
+max-width:500px;
+padding:35px;
+border-radius:25px;
+box-shadow:
+0 8px 30px
+rgba(0,0,0,0.3);
+text-align:center;
+}
+
+.logo{
+width:120px;
+margin-bottom:15px;
+}
+
+h1{
+font-size:38px;
+color:#0056d2;
+margin-bottom:10px;
+}
+
+.description{
+font-size:15px;
+color:#555;
+line-height:28px;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:15px;
+margin:10px 0;
+border:2px solid #d6e4ff;
+border-radius:12px;
+background:#eef4ff;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:16px;
+background:#28a745;
+border:none;
+color:#fff;
+font-size:18px;
+font-weight:bold;
+border-radius:12px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#218838;
+}
+
+.login-btn{
+background:#0056d2;
+}
+
+.login-btn:hover{
+background:#003ea8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="1000174411.png"
+class="logo">
+
+<h1>
+Recruiter Register
+</h1>
+
+<p class="description">
+
+Create recruiter account to
+post jobs, manage openings,
+and hire candidates.
+
+</p>
+
+<input
+type="text"
+id="name"
+placeholder="Recruiter Name">
+
+<input
+type="email"
+id="email"
+placeholder="Recruiter Email">
+
+<input
+type="password"
+id="password"
+placeholder="Create Password">
+
+<button onclick="registerRecruiter()">
+Register
+</button>
+
+<button
+class="login-btn"
+onclick="goLogin()">
+Already Have Account? Login
+</button>
+
+</div>
+<!-- Professional Popup -->
+<div id="popup"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+
+<div style="
+background:white;
+padding:30px;
+border-radius:20px;
+width:90%;
+max-width:350px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+">
+
+<img src="1000174411.png"
+style="
+width:90px;
+margin-bottom:15px;
+">
+
+<h2 style="
+color:#0056d2;
+margin-bottom:10px;
+">
+Indupalli Services
+</h2>
+
+<p id="popupText"
+style="
+font-size:16px;
+color:#333;
+margin-bottom:20px;">
+</p>
+
+<button
+onclick="closePopup()"
+style="
+background:#0056d2;
+color:white;
+border:none;
+padding:12px 30px;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;">
+OK
+</button>
+
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey:
+"AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+
+authDomain:
+"indupalli-services-18404.firebaseapp.com",
+
+projectId:
+"indupalli-services-18404",
+
+storageBucket:
+"indupalli-services-18404.firebasestorage.app",
+
+messagingSenderId:
+"187485195719",
+
+appId:
+"1:187485195719:web:a2f422b12c47ea2d549de2"
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+// Register Recruiter
+window.registerRecruiter =
+function(){
+
+const recruiterName =
+document.getElementById(
+"name"
+).value.trim();
+
+const email =
+document.getElementById(
+"email"
+).value.trim();
+
+const password =
+document.getElementById(
+"password"
+).value.trim();
+
+if(
+recruiterName==="" ||
+email==="" ||
+password===""
+){
+showPopup(
+"Please fill all details"
+);
+return;
+}
+
+createUserWithEmailAndPassword(
+auth,
+email,
+password
+)
+
+.then(()=>{
+
+// Save recruiter name
+localStorage.setItem(
+"recruiterName",
+recruiterName
+);
+
+showPopup(
+"Recruiter Registered Successfully!"
+);
+
+// OK button redirect
+document.querySelector(
+"#popup button"
+).onclick =
+function(){
+
+closePopup();
+
+window.location.href =
+"recruiter-login.html";
+
+};
+
+})
+
+.catch((error)=>{
+
+showPopup(
+error.message
+);
+
+});
+
+};
+
+// Login Button
+window.goLogin =
+function(){
+
+window.location.href =
+"recruiter-login.html";
+
+};
+
+// Popup Functions
+window.showPopup =
+function(message){
+
+document.getElementById(
+"popupText"
+).innerText = message;
+
+document.getElementById(
+"popup"
+).style.display = "flex";
+
+};
+
+window.closePopup =
+function(){
+
+document.getElementById(
+"popup"
+).style.display = "none";
+
+};
+
+</script>
+
+</body>
+</html>
