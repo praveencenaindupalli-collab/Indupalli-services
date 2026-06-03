@@ -1,0 +1,574 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Indupalli Services - Job Portal
+</title><style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Calibri,Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(
+135deg,
+#003366,
+#0056d2,
+#1e90ff
+);
+padding:20px;
+min-height:100vh;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+background:white;
+border-radius:25px;
+padding:35px;
+box-shadow:
+0 10px 30px rgba(0,0,0,0.2);
+}
+
+.logo{
+width:120px;
+display:block;
+margin:auto;
+}
+
+.company-name{
+text-align:center;
+font-size:38px;
+font-weight:bold;
+color:#0056d2;
+margin-top:15px;
+}
+
+.heading{
+text-align:center;
+font-size:28px;
+font-weight:bold;
+color:#003366;
+margin-top:10px;
+}
+
+.description{
+text-align:center;
+color:#555;
+margin-top:10px;
+margin-bottom:30px;
+line-height:28px;
+}
+
+.form-box{
+background:#eef5ff;
+padding:25px;
+border-radius:20px;
+}
+
+.form-box h2{
+text-align:center;
+color:#0056d2;
+margin-bottom:20px;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin-bottom:6px;
+color:#003366;
+}
+
+input,
+textarea{
+width:100%;
+padding:14px;
+border:2px solid #d6e4ff;
+border-radius:10px;
+font-size:16px;
+}
+
+textarea{
+resize:none;
+}
+
+.submit-btn{
+width:100%;
+padding:16px;
+background:#0056d2;
+color:white;
+font-size:18px;
+font-weight:bold;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.submit-btn:hover{
+background:#003ea8;
+}
+
+</style></head><body><div class="container"><img src="1000174411.png"
+class="logo">
+
+<div class="company-name">
+Indupalli Services
+</div><div class="heading">
+Job Seeker Portal
+</div><p class="description">
+Create your profile and apply for jobs.
+</p>
+<div class="form-box"><h2>
+Job Application Form
+</h2><div class="form-group">
+<label>Full Name</label>
+<input
+type="text"
+id="fullname"
+placeholder="Enter Full Name">
+</div><div class="form-group">
+<label>Email Address</label>
+<input
+type="email"
+id="email"
+placeholder="Enter Email Address">
+</div><div class="form-group">
+<label>Phone Number</label>
+<input
+type="tel"
+id="phone"
+placeholder="Enter Phone Number">
+</div><div class="form-group">
+<label>Current Location</label>
+<input
+type="text"
+id="location"
+placeholder="Enter Current Location">
+</div><div class="form-group">
+<label>Years of Experience</label>
+<input
+type="text"
+id="experience"
+placeholder="Example: 2 Years">
+</div><div class="form-group">
+<label>Skills</label>
+<input
+type="text"
+id="skills"
+placeholder="Java, HR, Data Entry, Customer Support">
+</div><div class="form-group">
+<label>Upload Resume</label>
+<input
+type="file"
+id="resume"
+accept=".pdf,.doc,.docx">
+</div><div class="form-group">
+<label>About Yourself</label><textarea
+id="about"
+rows="5"
+placeholder="Tell us about yourself">
+</textarea></div><button
+type="button"
+class="submit-btn"
+onclick="window.submitApplication()">
+Submit Application
+</button>
+
+</div><h2 style="
+text-align:center;
+font-size:34px;
+color:#0056d2;
+margin-top:30px;
+margin-bottom:20px;
+">
+Current Job Openings
+<span id="jobCount">0</span>
+</h2><input
+type="text"
+id="jobSearch"
+placeholder="🔍 Search Jobs"
+onkeyup="searchJobs()"
+style="
+width:100%;
+padding:15px;
+border:2px solid #d6e4ff;
+border-radius:10px;
+margin-bottom:20px;
+">
+
+<div id="jobsContainer"></div>
+<div id="popup"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+z-index:9999;
+"><div style="
+background:white;
+padding:30px;
+width:90%;
+max-width:420px;
+border-radius:20px;
+text-align:center;
+"><img src="1000174411.png"
+style="
+width:100px;
+margin-bottom:15px;
+">
+
+<h2 style="
+color:#0056d2;
+">
+Indupalli Services
+</h2><div id="popupText"></div><button
+onclick="closePopup()"
+class="submit-btn"
+style="margin-top:20px;">
+OK
+</button>
+
+</div></div><script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+query,
+where
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+
+authDomain:
+"indupalli-services-18404.firebaseapp.com",
+
+projectId:
+"indupalli-services-18404",
+
+storageBucket:
+"indupalli-services-18404.firebasestorage.app",
+
+messagingSenderId:
+"187485195719",
+
+appId:
+"1:187485195719:web:a2f422b12c47ea2d549de2"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+let selectedJob = "";
+window.applyJob = function(job){
+
+selectedJob = job;
+
+localStorage.setItem(
+"selectedJob",
+job
+);
+
+showPopup(`
+
+<h2 style="
+color:#0056d2;
+">
+Job Selected
+</h2><h3 style="
+color:#003366;
+margin-top:10px;
+">
+${job}
+</h3><p style="
+line-height:1.8;
+color:#555;
+margin-top:15px;
+">
+You have selected this position.Please complete your profile details and click
+<b>Submit Application</b>
+to continue with your application.
+
+</p>`);
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+};
+
+window.submitApplication = async function(){
+
+let fullname =
+document.getElementById("fullname").value.trim();
+
+let email =
+document.getElementById("email").value.trim();
+
+let phone =
+document.getElementById("phone").value.trim();
+
+let location =
+document.getElementById("location").value.trim();
+
+let experience =
+document.getElementById("experience").value.trim();
+
+let skills =
+document.getElementById("skills").value.trim();
+
+let about =
+document.getElementById("about").value.trim();
+
+let jobRole =
+selectedJob;
+if(
+fullname === "" ||
+email === "" ||
+phone === "" ||
+location === "" ||
+experience === "" ||
+skills === "" ||
+jobRole === ""
+){
+
+showPopup(`
+
+<h2 style="color:#dc3545;">
+Application Incomplete
+</h2><p style="
+line-height:1.8;
+color:#555;
+">
+Please select a job and complete all required fields before submitting your application.
+</p>`);
+
+return;
+
+}
+
+try{
+
+const existingApplication =
+query(
+collection(db,"jobApplications"),
+where("email","==",email)
+);
+
+const existingSnapshot =
+await getDocs(existingApplication);
+
+if(!existingSnapshot.empty){
+
+showPopup(`
+
+<h2 style="color:#dc3545;">
+Application Already Submitted
+</h2><p style="
+line-height:1.8;
+color:#555;
+">
+An application has already been submitted using this email address.Each candidate may submit only one application.
+
+If you need to update your information, please contact our recruitment team for assistance.
+
+</p>`);
+
+return;
+
+}
+let applicationId =
+"APP" + Date.now();
+
+await addDoc(
+collection(db,"jobApplications"),
+{
+fullname,
+email,
+phone,
+location,
+experience,
+skills,
+about,
+jobRole,
+jobTitle: jobRole,
+applicationId,
+submittedAt:new Date()
+}
+);
+
+showPopup(`
+
+<h2 style="color:#28a745;">
+Application Submitted Successfully
+</h2><p style="
+line-height:1.8;
+color:#555;
+">
+Thank you for applying.Your application has been received successfully.
+
+<br><br>
+
+Application ID:
+
+<br><b>${applicationId}</b>
+
+</p>`);
+
+}catch(error){
+
+showPopup(`
+
+<h2 style="color:#dc3545;">
+Submission Failed
+</h2><p style="
+line-height:1.8;
+color:#555;
+">
+${error.message}
+</p>`);
+
+}
+
+};
+window.showPopup = function(message){
+
+document.getElementById(
+"popupText"
+).innerHTML = message;
+
+document.getElementById(
+"popup"
+).style.display = "flex";
+
+};
+
+window.closePopup = function(){
+
+document.getElementById(
+"popup"
+).style.display = "none";
+
+};
+
+async function loadJobCount(){
+
+const jobsSnapshot =
+await getDocs(
+collection(db,"jobs")
+);
+
+document.getElementById(
+"jobCount"
+).innerText =
+jobsSnapshot.size;
+
+}
+async function loadJobs(){
+
+const jobsSnapshot =
+await getDocs(
+collection(db,"jobs")
+);
+
+let html = "";
+
+jobsSnapshot.forEach((doc)=>{
+
+const job = doc.data();
+
+html += `
+
+<div class="job-card"><h3>${job.title}</h3><p>
+📍 ${job.location}
+</p><p>
+👤 ${job.postedBy}
+</p><p>
+📅 ${job.postedOn}
+</p><button
+class="submit-btn"
+onclick="applyJob('${job.title}')">
+Apply Now
+</button>
+
+</div>`;
+
+});
+
+document.getElementById(
+"jobsContainer"
+).innerHTML = html;
+
+}
+window.searchJobs = function(){
+
+let input =
+document.getElementById(
+"jobSearch"
+).value.toLowerCase();
+
+let cards =
+document.querySelectorAll(
+".job-card"
+);
+
+cards.forEach(card=>{
+
+let title =
+card.querySelector("h3")
+.innerText
+.toLowerCase();
+
+if(title.includes(input)){
+
+card.style.display = "";
+
+}else{
+
+card.style.display = "none";
+
+}
+
+});
+
+};
+
+loadJobCount();
+
+loadJobs();
+</script><script>
+
+function closePopup(){
+
+document.getElementById(
+"popup"
+).style.display = "none";
+
+}
+
+</script></div></body></html>
