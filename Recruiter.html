@@ -1,0 +1,145 @@
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+
+authDomain:
+"indupalli-services-18404.firebaseapp.com",
+
+projectId:
+"indupalli-services-18404",
+
+storageBucket:
+"indupalli-services-18404.firebasestorage.app",
+
+messagingSenderId:
+"187485195719",
+
+appId:
+"1:187485195719:web:a2f422b12c47ea2d549de2"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+window.postJob =
+async function(){
+
+const jobTitle =
+document.getElementById(
+"jobTitle"
+).value;
+
+const location =
+document.getElementById(
+"location"
+).value;
+
+const salary =
+document.getElementById(
+"salary"
+).value;
+
+const experience =
+document.getElementById(
+"experience"
+).value;
+
+const jobType =
+document.getElementById(
+"jobType"
+).value;
+
+const description =
+document.getElementById(
+"description"
+).value;
+
+if(
+jobTitle=="" ||
+location=="" ||
+salary=="" ||
+experience=="" ||
+jobType=="" ||
+description==""
+){
+alert(
+"Please fill all fields"
+);
+return;
+}
+
+try{
+
+await addDoc(
+collection(db,"jobs"),
+{
+
+title: jobTitle,
+location: location,
+salary: salary,
+experience: experience,
+jobType: jobType,
+description: description,
+createdAt:
+new Date()
+
+}
+);
+
+alert(
+"Job Posted Successfully"
+);
+
+document.getElementById(
+"jobTitle"
+).value = "";
+
+document.getElementById(
+"location"
+).value = "";
+
+document.getElementById(
+"salary"
+).value = "";
+
+document.getElementById(
+"experience"
+).value = "";
+
+document.getElementById(
+"jobType"
+).value = "";
+
+document.getElementById(
+"description"
+).value = "";
+
+}
+catch(error){
+
+alert(
+error.message
+);
+
+}
+
+}
+
+</script>
