@@ -1,0 +1,331 @@
+/* ==========================================================
+   INDUPALLI SERVICES — Candidate Dashboard
+   Self-contained: initializes its own Firebase
+========================================================== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, collection, getDocs, addDoc,
+  doc, getDoc, setDoc, query, where, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initPaymentGate } from "./payment-gate.js";
+
+/* ── Init ──────────────────────────────────────────────── */
+const app  = initializeApp({
+  apiKey:"AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+  authDomain:"indupalli-services-18404.firebaseapp.com",
+  projectId:"indupalli-services-18404",
+  storageBucket:"indupalli-services-18404.firebasestorage.app",
+  messagingSenderId:"187485195719",
+  appId:"1:187485195719:web:a2f422b12c47ea2d549de2"
+});
+const auth = getAuth(app);
+const db   = getFirestore(app);
+window.db  = db;
+window.auth= auth;
+
+let currentUser = null;
+let allJobs     = [];
+let applyJobId  = "";
+let applyJobTitle = "";
+
+/* ═══════════════════════════════════════════════════════════
+   AUTH
+═══════════════════════════════════════════════════════════ */
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { window.location.href = "login.html"; return; }
+  currentUser = user;
+
+  const name  = user.displayName || user.email.split("@")[0];
+  const init  = name.charAt(0).toUpperCase();
+  const email = user.email;
+
+  setEl("candidateName",  name);
+  setEl("candidateEmail", email);
+
+  // Avatar initial
+  const sp = document.getElementById("avatarInitial");
+  if (sp && !localStorage.getItem("userPhoto")) sp.textContent = init;
+
+  setVal("candidateEmailAddress", email);
+  setVal("applyEmail", email);
+
+  // Load all data only after payment is confirmed
+  initPaymentGate(db, user, "candidate", async () => {
+    await loadProfile();
+    loadJobs();
+    loadApplications();
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════
+   PROFILE
+═══════════════════════════════════════════════════════════ */
+async function loadProfile() {
+  try {
+    const snap = await getDoc(doc(db, "candidates", currentUser.uid));
+    if (!snap.exists()) return;
+    const p = snap.data();
+    setVal("candidateFullName",   p.name       || "");
+    setVal("candidatePhone",      p.phone      || "");
+    setVal("candidateLocation",   p.location   || "");
+    setVal("candidateExperience", p.experience || "");
+    setVal("candidateSkills",     p.skills     || "");
+    setVal("candidateAbout",      p.about      || "");
+    setVal("applyName",       p.name       || "");
+    setVal("applyPhone",      p.phone      || "");
+    setVal("applyExperience", p.experience || "");
+    if (p.name) {
+      setEl("candidateName", p.name);
+      const sp = document.getElementById("avatarInitial");
+      if (sp && !localStorage.getItem("userPhoto"))
+        sp.textContent = p.name.charAt(0).toUpperCase();
+    }
+  } catch(e) { console.warn("Profile:", e.message); }
+}
+
+window.saveProfile = async function() {
+ content://com.android.externalstorage.documents/tree/primary%3AWebsite::primary:Website/candidate.jscontent://com.android.externalstorage.documents/tree/primary%3AWebsite::primary:Website/candidate.js if (!currentUser) return;
+  const name = getVal("candidateFullName");
+  if (!name) { toast("Enter your full name","error"); return; }
+  try {
+    await setDoc(doc(db,"candidates",currentUser.uid), {
+      name,
+      phone:      getVal("candidatePhone"),
+      location:   getVal("candidateLocation"),
+      experience: getVal("candidateExperience"),
+      skills:     getVal("candidateSkills"),
+      about:      getVal("candidateAbout"),
+      email: currentUser.email,
+      updatedAt: serverTimestamp()
+    }, { merge:true });
+    setEl("candidateName", name);
+    const sp = document.getElementById("avatarInitial");
+    if (sp && !localStorage.getItem("userPhoto")) sp.textContent = name.charAt(0).toUpperCase();
+    setVal("applyName", name);
+    setVal("applyPhone", getVal("candidatePhone"));
+    setVal("applyExperience", getVal("candidateExperience"));
+    toast("✅ Profile saved!","success");
+  } catch(e){ toast("Error: "+e.message,"error"); }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   JOBS
+═══════════════════════════════════════════════════════════ */
+async function loadJobs() {
+  const box = document.getElementById("jobsContainer");
+  if (!box) return;
+  box.innerHTML = `<div style="padding:30px;text-align:center;color:#888;">
+    <div style="width:36px;height:36px;border:3px solid #e0e8ff;border-top-color:#0056d2;
+      border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px;">
+    </div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+    Loading jobs...
+  </div>`;
+  try {
+    const snap = await getDocs(collection(db,"jobs"));
+    allJobs = [];
+    snap.forEach(d => { if (!d.data().isArchived) allJobs.push({id:d.id,...d.data()}); });
+    renderJobs(allJobs);
+  } catch(e) {
+    box.innerHTML = `<div style="padding:30px;text-align:center;color:red;">
+      ⚠️ Could not load jobs.<br>
+      <button onclick="location.reload()" style="margin-top:12px;padding:10px 20px;background:#0056d2;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">🔄 Retry</button>
+    </div>`;
+  }
+}
+
+function renderJobs(jobs) {
+  const box = document.getElementById("jobsContainer");
+  if (!box) return;
+  if (!jobs.length) {
+    box.innerHTML = `<div style="padding:40px;text-align:center;color:#888;">
+      <div style="font-size:44px;margin-bottom:12px;">📭</div>
+      <p style="font-size:15px;font-weight:600;">No jobs available right now.</p>
+    </div>`;
+    return;
+  }
+  box.innerHTML = jobs.map(j => `
+    <div class="job-card">
+      <div class="job-title">${j.title||"Untitled"}</div>
+      <div class="job-company">🏢 ${j.company||"Indupalli Services"}</div>
+      <div class="job-info">
+        <span>📍 ${j.location||"N/A"}</span>
+        <span>💼 ${j.experience||"N/A"}</span>
+        <span>💰 ₹${j.salary||"N/A"}</span>
+        <span>🕒 ${j.jobType||"Full Time"}</span>
+      </div>
+      <div class="job-description">${(j.description||"").substring(0,200)}${j.description?.length>200?"...":""}</div>
+      <button class="apply-btn" data-jid="${j.id}" data-jtitle="${(j.title||"").replace(/"/g,"&quot;")}">
+        🚀 Apply Now
+      </button>
+    </div>`).join("");
+
+  // Attach click listeners AFTER rendering
+  box.querySelectorAll(".apply-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+      window.openApplyModal(this.dataset.jid, this.dataset.jtitle);
+    });
+  });
+}
+
+window.filterJobs = function() {
+  const q = (document.getElementById("jobSearch")?.value||"").toLowerCase();
+  const t = document.getElementById("jobFilter")?.value||"";
+  renderJobs(allJobs.filter(j =>
+    (!q||(j.title||"").toLowerCase().includes(q)||(j.location||"").toLowerCase().includes(q))&&
+    (!t||(j.jobType||"Full Time")===t)
+  ));
+};
+
+/* ═══════════════════════════════════════════════════════════
+   APPLY MODAL
+═══════════════════════════════════════════════════════════ */
+window.openApplyModal = function(jobId, jobTitle) {
+  if (!currentUser) { toast("Please login first","error"); return; }
+  applyJobId    = jobId;
+  applyJobTitle = jobTitle||"Job";
+
+  // Pre-fill: profile form → displayName → email username (never leave blank)
+  const savedName = getVal("candidateFullName")
+    || currentUser.displayName
+    || currentUser.email.split("@")[0];
+  const savedPhone = getVal("candidatePhone") || "";
+  const savedExp   = getVal("candidateExperience") || "";
+
+  setVal("applyName",       savedName);
+  setVal("applyPhone",      savedPhone);
+  setVal("applyExperience", savedExp);
+  setVal("applyEmail",      currentUser.email);
+
+  const m = document.getElementById("applyModal");
+  if (m) m.style.display = "flex";
+};
+
+window.closeApplyModal = function() {
+  const m = document.getElementById("applyModal");
+  if (m) m.style.display = "none";
+};
+
+window.submitApplication = async function() {
+  const name = getVal("applyName");
+  const phone = getVal("applyPhone");
+  const exp   = getVal("applyExperience");
+  if (!name) { setVal("applyName", currentUser.email.split("@")[0]); }
+  if (!phone||!exp) {
+    toast("⚠️ Please enter Phone and Experience","error");
+    return;
+  }
+  try {
+    const dup = await getDocs(query(collection(db,"jobApplications"),
+      where("email","==",currentUser.email), where("jobId","==",applyJobId)));
+    if (!dup.empty) { toast("Already applied for this job!","warning"); window.closeApplyModal(); return; }
+
+    await addDoc(collection(db,"jobApplications"), {
+      fullname: name, email: currentUser.email, phone, experience: exp,
+      about: getVal("coverLetter"),
+      jobId: applyJobId, jobTitle: applyJobTitle,
+      applicationId: "APP"+Date.now().toString().slice(-6),
+      status: "New Application",
+      appliedOn: new Date().toLocaleDateString("en-IN"),
+      createdAt: serverTimestamp(), userId: currentUser.uid
+    });
+    toast("✅ Application submitted!","success");
+    window.closeApplyModal();
+    loadApplications();
+  } catch(e){ toast("Error: "+e.message,"error"); }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   APPLICATIONS
+═══════════════════════════════════════════════════════════ */
+async function loadApplications() {
+  if (!currentUser) return;
+  try {
+    let apps = [];
+    const s1 = await getDocs(query(collection(db,"jobApplications"),
+      where("userId","==",currentUser.uid)));
+    s1.forEach(d => apps.push({id:d.id,...d.data()}));
+    if (!apps.length) {
+      const s2 = await getDocs(query(collection(db,"jobApplications"),
+        where("email","==",currentUser.email)));
+      s2.forEach(d => apps.push({id:d.id,...d.data()}));
+    }
+    setEl("totalApplications",   apps.length);
+    setEl("underReview",         apps.filter(a=>a.status==="Under Review").length);
+    setEl("interviewsScheduled", apps.filter(a=>a.status==="Interview Scheduled").length);
+    setEl("selectedJobs",        apps.filter(a=>a.status==="Selected").length);
+
+    const recent = document.getElementById("recentApplications");
+    if (recent) {
+      recent.innerHTML = !apps.length
+        ? `<tr><td colspan="4" style="text-align:center;padding:24px;color:#888;">No applications yet. Browse jobs below ↓</td></tr>`
+        : apps.slice(0,5).map(a=>`
+          <tr>
+            <td><strong>${a.jobTitle||"N/A"}</strong></td>
+            <td>${a.company||"Indupalli Services"}</td>
+            <td>${badge(a.status)}</td>
+            <td>${a.appliedOn||"—"}</td>
+          </tr>`).join("");
+    }
+
+    const full = document.getElementById("applicationsTable");
+    if (full) {
+      full.innerHTML = !apps.length
+        ? `<tr><td colspan="5" style="text-align:center;padding:24px;color:#888;">No applications yet.</td></tr>`
+        : apps.map(a=>`
+          <tr>
+            <td><strong>${a.jobTitle||"N/A"}</strong></td>
+            <td>${a.company||"Indupalli Services"}</td>
+            <td>${badge(a.status)}</td>
+            <td>${a.appliedOn||"—"}</td>
+            <td><button onclick="window.initializeChatRoom&&window.initializeChatRoom('${a.id}','Recruiter','candidate')"
+              class="chat-btn">💬 Chat</button></td>
+          </tr>`).join("");
+    }
+  } catch(e){ console.warn("Apps:",e.message); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOGOUT
+═══════════════════════════════════════════════════════════ */
+window.logoutCandidate = async function() {
+  try { await signOut(auth); } catch(e) {}
+  localStorage.removeItem("userEmail");
+  window.location.href = "login.html";
+};
+
+/* ═══════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════ */
+function getVal(id) { return document.getElementById(id)?.value?.trim()||""; }
+function setVal(id,v) { const e=document.getElementById(id); if(e) e.value=v; }
+function setEl(id,v)  { const e=document.getElementById(id); if(e) e.textContent=v; }
+
+function badge(s) {
+  const m={"New Application":["#64748b","🆕 New"],"Under Review":["#f59e0b","👀 Review"],
+    "Interview Scheduled":["#3b82f6","📅 Interview"],"Selected":["#10b981","✅ Selected"],
+    "Rejected":["#ef4444","❌ Rejected"]};
+  const [c,l]=m[s]||["#64748b",s||"New"];
+  return `<span style="background:${c}20;color:${c};padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">${l}</span>`;
+}
+
+function toast(msg, type="success") {
+  const old=document.getElementById("__toast"); if(old) old.remove();
+  const c={success:"#00b86b",error:"#ef4444",warning:"#ff9800",info:"#0056d2"};
+  const t=document.createElement("div");
+  t.id="__toast";
+  t.style.cssText=`position:fixed;bottom:24px;right:20px;z-index:99999;background:${c[type]};
+    color:#fff;padding:13px 20px;border-radius:12px;font-size:14px;font-weight:600;
+    box-shadow:0 6px 24px rgba(0,0,0,.2);max-width:300px;`;
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+
+/* ── Wire search on input ──────────────────────────────── */
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("jobSearch")?.addEventListener("input", window.filterJobs);
+  document.getElementById("jobFilter")?.addEventListener("change", window.filterJobs);
+});

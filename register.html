@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recruiter Register – Indupalli Services ATS</title>
+<title> Create Account – Indupalli Services</title>
 <style>
-:root{--blue:#0056d2;--dark:#001233;--orange:#ff7a00;--green:#00b86b;--bg:#f0f4ff;--border:#dce8ff;}
+:root{--blue:#0056d2;--dark:#001233;--green:#00b86b;--orange:#ff7a00;--bg:#f0f4ff;--border:#dce8ff;}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Calibri,Arial,sans-serif;}
 body{min-height:100vh;display:flex;background:#000;}
 
@@ -28,7 +28,7 @@ body{min-height:100vh;display:flex;background:#000;}
 
 .brand{position:relative;z-index:2;display:flex;align-items:center;gap:14px;}
 .brand img{height:52px;border-radius:12px;background:#fff;padding:4px;}
-.brand-text h2{font-size:20px;font-weight:900;color:#fff;letter-spacing:.3px;}
+.brand-text h2{font-size:20px;font-weight:900;color:#fff;}
 .brand-text p{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
 
 .left-center{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 0;}
@@ -39,7 +39,7 @@ body{min-height:100vh;display:flex;background:#000;}
   color:rgba(255,255,255,.9);letter-spacing:.8px;text-transform:uppercase;
   margin-bottom:24px;width:fit-content;
 }
-.ats-badge span{width:8px;height:8px;background:var(--orange);border-radius:50%;display:inline-block;animation:pulse 1.5s infinite;}
+.ats-badge span{width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 1.5s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);}}
 
 .left-center h1{font-size:46px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:10px;}
@@ -48,23 +48,15 @@ body{min-height:100vh;display:flex;background:#000;}
 
 /* STEPS */
 .steps{display:flex;flex-direction:column;gap:0;}
-.step-item{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.step-item{display:flex;gap:16px;align-items:flex-start;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.08);}
 .step-item:last-child{border-bottom:none;}
-.step-num{
-  width:36px;height:36px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:900;flex-shrink:0;color:#fff;
-}
+.step-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;flex-shrink:0;color:#fff;}
 .step-text h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;}
 .step-text p{font-size:12px;color:rgba(255,255,255,.55);line-height:1.5;}
 
-/* BENEFITS STRIP */
-.benefits{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px;}
-.benefit{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.09);
-  padding:14px 16px;border-radius:14px;
-}
+/* BENEFITS */
+.benefits{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px;}
+.benefit{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:14px 16px;border-radius:14px;}
 .benefit .b-icon{font-size:22px;margin-bottom:6px;}
 .benefit h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}
 .benefit p{font-size:11px;color:rgba(255,255,255,.5);line-height:1.4;}
@@ -78,11 +70,11 @@ body{min-height:100vh;display:flex;background:#000;}
 .right-panel{
   width:500px;flex-shrink:0;background:var(--bg);
   display:flex;flex-direction:column;justify-content:center;
-  padding:44px 44px;position:relative;overflow-y:auto;
+  padding:50px 44px;position:relative;overflow-y:auto;
 }
 .right-panel::before{
   content:'';position:absolute;top:0;left:0;right:0;height:4px;
-  background:linear-gradient(90deg,var(--orange),var(--blue),var(--green));
+  background:linear-gradient(90deg,var(--green),var(--blue),var(--orange));
 }
 
 .right-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px;}
@@ -99,20 +91,17 @@ body{min-height:100vh;display:flex;background:#000;}
 .form-box h2{font-size:30px;font-weight:900;color:var(--dark);margin-bottom:6px;}
 .form-box .sub{color:#888;font-size:14px;margin-bottom:28px;line-height:1.6;}
 
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .input-group{position:relative;margin-bottom:16px;}
-.input-group.half{margin-bottom:0;}
 .input-group label{display:block;font-size:11px;font-weight:800;color:#555;margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;}
 .input-group .input-wrap{position:relative;}
 .input-group .icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;}
-.input-group input,.input-group select{
+.input-group input{
   width:100%;padding:13px 13px 13px 42px;
   border:2px solid var(--border);border-radius:12px;
   font-size:14px;background:#fff;transition:.2s;
   font-family:inherit;color:var(--dark);
 }
-.input-group select{padding-left:42px;cursor:pointer;}
-.input-group input:focus,.input-group select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px rgba(0,184,107,.08);}
+.input-group input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px rgba(0,184,107,.08);}
 .input-group input::placeholder{color:#bbb;}
 
 .terms-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;padding:14px;background:#fff;border-radius:12px;border:2px solid var(--border);}
@@ -124,8 +113,7 @@ body{min-height:100vh;display:flex;background:#000;}
   width:100%;padding:15px;
   background:linear-gradient(135deg,var(--green),#009a5c);
   color:#fff;border:none;border-radius:12px;
-  font-size:16px;font-weight:800;cursor:pointer;
-  transition:.2s;letter-spacing:.3px;
+  font-size:16px;font-weight:800;cursor:pointer;transition:.2s;
   box-shadow:0 6px 20px rgba(0,184,107,.3);
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
@@ -137,11 +125,20 @@ body{min-height:100vh;display:flex;background:#000;}
 
 .btn-login{
   width:100%;padding:14px;background:#fff;color:var(--blue);
-  border:2px solid var(--blue);border-radius:12px;
-  font-size:15px;font-weight:800;cursor:pointer;transition:.2s;
+  border:2px solid var(--blue);border-radius:12px;font-size:15px;
+  font-weight:800;cursor:pointer;transition:.2s;
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .btn-login:hover{background:var(--blue);color:#fff;transform:translateY(-1px);}
+
+.recruiter-link{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:14px;padding:12px;
+  background:#fff3e0;border:2px solid #ffe0b2;
+  border-radius:12px;font-size:13px;color:var(--orange);
+  font-weight:700;text-decoration:none;transition:.2s;
+}
+.recruiter-link:hover{background:var(--orange);color:#fff;}
 
 .security-row{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:22px;padding-top:18px;border-top:1px solid var(--border);}
 .sec-badge{display:flex;align-items:center;gap:5px;font-size:11px;color:#bbb;font-weight:600;}
@@ -162,7 +159,6 @@ body{min-height:100vh;display:flex;background:#000;}
   .left-center h1{font-size:28px;}
   .steps,.benefits,.left-bottom{display:none;}
   .right-panel{width:100%;padding:32px 22px 48px;}
-  .form-row{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -178,68 +174,68 @@ body{min-height:100vh;display:flex;background:#000;}
     <img src="1000174411.png" alt="Indupalli Services">
     <div class="brand-text">
       <h2>Indupalli Services</h2>
-      <p>ATS — Applicant Tracking System</p>
+      <p>Career Portal — Job Seeker</p>
     </div>
   </div>
 
   <div class="left-center">
     <div class="ats-badge">
-      <span></span> Join 100+ Active Recruiters
+      <span></span> Free to Join — Start Today
     </div>
-    <h1>Start Hiring<br><span>Smarter Today.</span></h1>
-    <p class="tagline">Create your free recruiter account and get access to India's most powerful hiring platform in minutes.</p>
+    <h1>Your Dream Job<br><span>Starts Here.</span></h1>
+    <p class="tagline">Create your free account and get instant access to hundreds of verified job openings across India.</p>
 
     <div class="steps">
       <div class="step-item">
         <div class="step-num" style="background:var(--blue);">1</div>
         <div class="step-text">
           <h4>Create Your Account</h4>
-          <p>Register with your name, company and email</p>
+          <p>Sign up with your name and email in seconds</p>
         </div>
       </div>
       <div class="step-item">
         <div class="step-num" style="background:var(--orange);">2</div>
         <div class="step-text">
-          <h4>Post Your First Job</h4>
-          <p>Add job details, requirements and go live instantly</p>
+          <h4>Complete Your Profile</h4>
+          <p>Add your skills, experience and upload resume</p>
         </div>
       </div>
       <div class="step-item">
-        <div class="step-num" style="background:var(--purple,#673ab7);">3</div>
+        <div class="step-num" style="background:#673ab7;">3</div>
         <div class="step-text">
-          <h4>Review Applications</h4>
-          <p>Candidates apply and you review in your dashboard</p>
+          <h4>Apply for Jobs</h4>
+          <p>Browse openings and apply with one click</p>
         </div>
       </div>
       <div class="step-item">
         <div class="step-num" style="background:var(--green);">4</div>
         <div class="step-text">
-          <h4>Hire the Best Talent</h4>
-          <p>Schedule interviews and make your offer</p>
+          <h4>Track & Get Hired</h4>
+          <p>Monitor status and attend interviews</p>
         </div>
       </div>
     </div>
 
     <div class="benefits">
       <div class="benefit">
+        <div class="b-icon">💼</div>
+        <h4>100+ Job Openings</h4>
+        <p>Across all industries in India</p>
+      </div>
+      <div class="benefit">
         <div class="b-icon">📋</div>
-        <h4>Unlimited Job Posts</h4>
-        <p>Post as many jobs as you need</p>
-      </div>
-      <div class="benefit">
-        <div class="b-icon">👥</div>
-        <h4>All Applications</h4>
-        <p>Review every candidate in one view</p>
-      </div>
-      <div class="benefit">
-        <div class="b-icon">📊</div>
-        <h4>Pipeline Analytics</h4>
-        <p>Visual funnel & hiring reports</p>
+        <h4>Track Applications</h4>
+        <p>Live status updates always</p>
       </div>
       <div class="benefit">
         <div class="b-icon">📅</div>
-        <h4>Interview Scheduler</h4>
-        <p>Set date & time for interviews</p>
+        <h4>Interview Alerts</h4>
+        <p>Get notified for interviews</p>
+      </div>
+      <div class="benefit">
+        <div class="b-icon">🔒</div>
+        <h4>100% Free & Secure</h4>
+        <p>No hidden charges ever</p>
       </div>
     </div>
   </div>
@@ -257,37 +253,28 @@ body{min-height:100vh;display:flex;background:#000;}
 <!-- RIGHT PANEL -->
 <div class="right-panel">
   <div class="right-top">
-    <span>Already a recruiter?</span>
-    <a href="recruiter-login.html">Login here →</a>
+    <span>Already have an account?</span>
+    <a href="login.html">Sign in →</a>
   </div>
 
   <div class="form-box">
-    <div class="form-badge">✨ New Recruiter Account</div>
+    <div class="form-badge">✨ New Job Seeker Account</div>
     <h2>Create Your Account</h2>
-    <p class="sub">Join Indupalli Services and start posting jobs to find the best talent across India.</p>
+    <p class="sub">Join thousands of job seekers who found their dream career with Indupalli Services.</p>
 
-    <div class="form-row" style="margin-bottom:16px;">
-      <div class="input-group half">
-        <label>Full Name *</label>
-        <div class="input-wrap">
-          <span class="icon">👤</span>
-          <input type="text" id="name" placeholder="Your full name">
-        </div>
-      </div>
-      <div class="input-group half">
-        <label>Company Name</label>
-        <div class="input-wrap">
-          <span class="icon">🏢</span>
-          <input type="text" id="company" placeholder="Company name">
-        </div>
+    <div class="input-group">
+      <label>Full Name *</label>
+      <div class="input-wrap">
+        <span class="icon">👤</span>
+        <input type="text" id="name" placeholder="Your full name">
       </div>
     </div>
 
     <div class="input-group">
-      <label>Work Email Address *</label>
+      <label>Email Address *</label>
       <div class="input-wrap">
         <span class="icon">📧</span>
-        <input type="email" id="email" placeholder="recruiter@company.com">
+        <input type="email" id="email" placeholder="you@example.com">
       </div>
     </div>
 
@@ -296,24 +283,6 @@ body{min-height:100vh;display:flex;background:#000;}
       <div class="input-wrap">
         <span class="icon">📞</span>
         <input type="tel" id="phone" placeholder="10-digit mobile number">
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>Industry</label>
-      <div class="input-wrap">
-        <span class="icon">🏭</span>
-        <select id="industry">
-          <option value="">Select your industry</option>
-          <option>IT / Software</option>
-          <option>Sales & Marketing</option>
-          <option>HR & Recruitment</option>
-          <option>Finance & Accounts</option>
-          <option>Healthcare</option>
-          <option>Manufacturing</option>
-          <option>Education</option>
-          <option>Other</option>
-        </select>
       </div>
     </div>
 
@@ -331,14 +300,18 @@ body{min-height:100vh;display:flex;background:#000;}
     </div>
 
     <button class="btn-register" onclick="register()">
-      Create Recruiter Account
+      🚀 Create My Account
     </button>
 
     <div class="divider"><span>Already have an account?</span></div>
 
-    <button class="btn-login" onclick="window.location.href='recruiter-login.html'">
-       Login to Dashboard
+    <button class="btn-login" onclick="window.location.href='login.html'">
+      🔑 Sign In to My Account
     </button>
+
+    <a href="recruiter-register.html" class="recruiter-link">
+      👔 Register as Recruiter Instead →
+    </a>
 
     <div class="security-row">
       <div class="sec-badge">🔒 SSL Secured</div>
@@ -375,24 +348,22 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 window.register = async function() {
-  const name     = document.getElementById("name").value.trim();
-  const company  = document.getElementById("company").value.trim();
-  const email    = document.getElementById("email").value.trim();
-  const phone    = document.getElementById("phone").value.trim();
-  const industry = document.getElementById("industry").value;
-  const pw       = document.getElementById("password").value;
-  const terms    = document.getElementById("terms").checked;
+  const name  = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const pw    = document.getElementById("password").value;
+  const terms = document.getElementById("terms").checked;
 
   if (!name || !email || !pw) {
-    showPopup("⚠️","Missing Info","Please fill in your name, email and password to continue.");
+    showPopup("⚠️","Missing Info","Please fill in your name, email and password.");
     return;
   }
   if (pw.length < 6) {
-    showPopup("⚠️","Weak Password","Password must be at least 6 characters long.");
+    showPopup("⚠️","Weak Password","Password must be at least 6 characters.");
     return;
   }
   if (!terms) {
-    showPopup("⚠️","Terms Required","Please agree to our Terms of Service to create your account.");
+    showPopup("⚠️","Terms Required","Please agree to our Terms of Service.");
     return;
   }
 
@@ -402,19 +373,18 @@ window.register = async function() {
 
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pw);
-    // Save recruiter profile to Firestore
-    await setDoc(doc(db, "recruiters", cred.user.uid), {
-      name, company, email, phone, industry,
-      role: "recruiter", createdAt: serverTimestamp()
+    await setDoc(doc(db, "candidates", cred.user.uid), {
+      name, email, phone,
+      role: "candidate",
+      createdAt: serverTimestamp()
     });
-    localStorage.setItem("recruiterEmail", email);
-    localStorage.setItem("recruiterName", name);
-    localStorage.setItem("recruiterCompany", company);
-    localStorage.setItem("userRole", "recruiter");
-    showPopup("🎉","Account Created!","Your recruiter account is ready. Redirecting to login...");
-    document.querySelector("#popup button").onclick = () => { window.location.href = "recruiter-login.html"; };
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("userName", name);
+    localStorage.setItem("userRole", "candidate");
+    showPopup("🎉","Account Created!","Welcome to Indupalli Services! Redirecting to login...");
+    document.querySelector("#popup button").onclick = () => { window.location.href = "login.html"; };
   } catch(e) {
-    btn.innerHTML = "Create Recruiter Account";
+    btn.innerHTML = "Create My Account";
     btn.disabled = false;
     const msg = e.code === "auth/email-already-in-use"
       ? "This email is already registered. Please login instead."

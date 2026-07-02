@@ -1,337 +1,104 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-Recruiter Login
-</title><style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Calibri,Arial,sans-serif;
-}
-
-body{
-background:
-linear-gradient(
-135deg,
-#003366,
-#0056d2,
-#1e90ff
-);
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
-}
-
-.container{
-background:#fff;
-width:100%;
-max-width:500px;
-padding:35px;
-border-radius:25px;
-box-shadow:
-0 8px 30px rgba(0,0,0,0.3);
-text-align:center;
-}
-
-.logo{
-width:120px;
-margin-bottom:15px;
-}
-
-h1{
-font-size:36px;
-color:#0056d2;
-margin-bottom:10px;
-}
-
-.description{
-font-size:15px;
-color:#555;
-line-height:26px;
-margin-bottom:20px;
-}
-
-input{
-width:100%;
-padding:15px;
-margin:10px 0;
-border:2px solid #d6e4ff;
-border-radius:12px;
-background:#eef4ff;
-font-size:16px;
-}
-button{
-width:100%;
-padding:16px;
-background:#0056d2;
-border:none;
-color:#fff;
-font-size:18px;
-font-weight:bold;
-border-radius:12px;
-cursor:pointer;
-margin-top:10px;
-}
-
-button:hover{
-background:#003ea8;
-}
-
-.register-btn{
-background:#28a745;
-}
-
-.register-btn:hover{
-background:#218838;
-}
-
-</style></head><body><div class="container"><img src="1000174411.png"
-class="logo">
-
-<h1>
-Recruiter Login
-</h1><p class="description">
-Login to post jobs,
-manage openings,
-track applications
-and hire candidates.
-</p><input
-type="email"
-id="email"
-placeholder="Recruiter Email">
-
-<input
-type="password"
-id="password"
-placeholder="Password">
-
-<button onclick="login()">
-Login
-</button><button
-class="register-btn"
-onclick="openRegister()">
-Recruiter Register
-</button>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recruiter Login – Indupalli Services</title>
+<style>
+:root{--blue:#0056d2;--dark:#001b5e;--orange:#ff7a00;--bg:#f5f7ff;--border:#e0e8ff;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Calibri,Arial,sans-serif;}
+body{min-height:100vh;display:flex;background:var(--bg);}
+.left-panel{flex:1;background:linear-gradient(160deg,#0a0a2e,#1a1a6e,var(--blue));display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 40px;color:#fff;text-align:center;}
+.left-panel img{width:110px;border-radius:16px;margin-bottom:22px;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.left-panel h1{font-size:30px;font-weight:900;margin-bottom:10px;}
+.left-panel p{font-size:14px;line-height:1.8;opacity:.88;max-width:320px;}
+.features{margin-top:36px;text-align:left;max-width:300px;width:100%;}
+.feature{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:14px;opacity:.9;}
+.feature:last-child{border-bottom:none;}
+.feature span{font-size:20px;}
+.right-panel{width:480px;display:flex;align-items:center;justify-content:center;padding:40px 32px;background:#fff;}
+.form-box{width:100%;max-width:380px;}
+.form-badge{display:inline-block;background:#fff3e0;color:var(--orange);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:14px;letter-spacing:.5px;text-transform:uppercase;}
+.form-box h2{font-size:28px;font-weight:900;color:var(--dark);margin-bottom:6px;}
+.form-box .sub{color:#888;font-size:14px;margin-bottom:28px;line-height:1.6;}
+label{display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;margin-top:16px;text-transform:uppercase;letter-spacing:.4px;}
+input{width:100%;padding:13px 16px;border:2px solid var(--border);border-radius:12px;font-size:15px;background:var(--bg);transition:.2s;font-family:inherit;}
+input:focus{outline:none;border-color:var(--orange);background:#fff;}
+.btn-login{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:22px;transition:.2s;}
+.btn-login:hover{background:#003ea8;transform:translateY(-1px);}
+.btn-register{width:100%;padding:14px;background:var(--orange);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;transition:.2s;}
+.btn-register:hover{background:#e06600;transform:translateY(-1px);}
+.back-link{display:block;text-align:center;margin-top:18px;color:var(--blue);font-size:13px;font-weight:600;text-decoration:none;}
+.popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);justify-content:center;align-items:center;z-index:9999;}
+.popup-box{background:#fff;width:90%;max-width:360px;padding:32px;border-radius:20px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.2);}
+.popup-box img{width:80px;margin-bottom:12px;border-radius:12px;}
+.popup-box button{background:var(--blue);color:#fff;border:none;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:14px;}
+@media(max-width:768px){body{flex-direction:column;}.left-panel{padding:36px 24px;min-height:auto;}.left-panel img{width:72px;}.features{display:none;}.right-panel{width:100%;padding:32px 20px 48px;}}
+</style>
+</head>
+<body>
+<div class="left-panel">
+  <img src="1000174411.png" alt="Logo">
+  <h1>Recruiter Portal</h1>
+  <p>Post jobs, manage applications, and build your team with Indupalli Services.</p>
+  <div class="features">
+    <div class="feature"><span>📋</span> Post and manage job openings</div>
+    <div class="feature"><span>👥</span> Review candidate applications</div>
+    <div class="feature"><span>📅</span> Schedule interviews easily</div>
+    <div class="feature"><span>📊</span> Track hiring pipeline</div>
+  </div>
 </div>
-<div id="popup"
-style="
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.6);
-justify-content:center;
-align-items:center;
-z-index:9999;
-"><div style="
-background:white;
-padding:30px;
-border-radius:20px;
-width:90%;
-max-width:350px;
-text-align:center;
-box-shadow:
-0 10px 30px rgba(0,0,0,0.3);
-"><img src="1000174411.png"
-style="
-width:90px;
-margin-bottom:15px;
-">
-
-<h2 style="
-color:#0056d2;
-margin-bottom:10px;
-">
-Indupalli Services
-</h2><p id="popupText"
-style="
-font-size:16px;
-color:#333;
-margin-bottom:20px;
-line-height:1.8;
-">
-</p><button
-onclick="closePopup()"
-style="
-background:#0056d2;
-color:white;
-border:none;
-padding:12px 30px;
-border-radius:10px;
-font-size:16px;
-cursor:pointer;
-">
-OK
-</button>
-
-</div></div><script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-getAuth,
-signInWithEmailAndPassword
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-const firebaseConfig = {
-
-apiKey:
-"AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
-
-authDomain:
-"indupalli-services-18404.firebaseapp.com",
-
-projectId:
-"indupalli-services-18404",
-
-storageBucket:
-"indupalli-services-18404.firebasestorage.app",
-
-messagingSenderId:
-"187485195719",
-
-appId:
-"1:187485195719:web:a2f422b12c47ea2d549de2"
-
+<div class="right-panel">
+  <div class="form-box">
+    <div class="form-badge">Recruiter Access</div>
+    <h2>Recruiter Login</h2>
+    <p class="sub">Sign in to manage your jobs and applicants.</p>
+    <label for="email">Recruiter Email</label>
+    <input type="email" id="email" placeholder="recruiter@company.com">
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Your password">
+    <button class="btn-login" onclick="login()">Login →</button>
+    <button class="btn-register" onclick="window.location.href='recruiter-register.html'">New Recruiter? Register Here</button>
+    <a href="login.html" class="back-link">← Job Seeker Login</a>
+  </div>
+</div>
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <img src="1000174411.png" alt="Logo">
+    <p id="popupText"></p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const auth = getAuth(initializeApp({
+  apiKey:"AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+  authDomain:"indupalli-services-18404.firebaseapp.com",
+  projectId:"indupalli-services-18404",
+  storageBucket:"indupalli-services-18404.firebasestorage.app",
+  messagingSenderId:"187485195719",
+  appId:"1:187485195719:web:a2f422b12c47ea2d549de2"
+}));
+window.login = function() {
+  const email = document.getElementById("email").value.trim();
+  const pw = document.getElementById("password").value;
+  if (!email || !pw) { showPopup("⚠️ Please enter email and password."); return; }
+  signInWithEmailAndPassword(auth, email, pw)
+    .then(cred => {
+      const isAdmin = email === "praveencenaindupalli@gmail.com";
+      localStorage.setItem("recruiterEmail", email);
+      localStorage.setItem("userRole", isAdmin ? "admin" : "recruiter");
+      localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
+      showPopup(isAdmin ? "✅ Admin login successful!" : "✅ Recruiter login successful!");
+      document.querySelector("#popup button").onclick = () => { window.location.href = "recruiter-dashboard.html"; };
+    })
+    .catch(() => showPopup("❌ Invalid email or password."));
 };
-
-const app =
-initializeApp(firebaseConfig);
-
-const auth =
-getAuth(app);
-
-window.login =
-function(){
-
-const email =
-document.getElementById(
-"email"
-).value.trim();
-
-const password =
-document.getElementById(
-"password"
-).value.trim();
-
-if(
-email === "" ||
-password === ""
-){
-
-showPopup(
-"Please enter your email address and password."
-);
-
-return;
-
-}
-
-signInWithEmailAndPassword(
-auth,
-email,
-password
-)
-
-.then(()=>{
-
-localStorage.setItem(
-"recruiterEmail",
-email
-);
-
-if(
-email ===
-"praveencenaindupalli@gmail.com"
-){
-
-localStorage.setItem(
-"isAdmin",
-"true"
-);
-
-showPopup(
-"Administrator Login Successful"
-);
-
-}else{
-
-localStorage.setItem(
-"isAdmin",
-"false"
-);
-
-showPopup(
-"Recruiter Login Successful"
-);
-
-}
-
-document.querySelector(
-"#popup button"
-).onclick =
-function(){
-
-closePopup();
-
-window.location.href =
-"recruiter-dashboard.html";
-
-};
-
-})
-.catch((error)=>{
-
-showPopup(
-
-"Login Failed<br><br>" +
-
-error.message
-
-);
-
-});
-
-};
-
-window.openRegister =
-function(){
-
-window.location.href =
-"recruiter-register.html";
-
-};
-
-window.showPopup =
-function(message){
-
-document.getElementById(
-"popupText"
-).innerHTML = message;
-
-document.getElementById(
-"popup"
-).style.display = "flex";
-
-};
-
-window.closePopup =
-function(){
-
-document.getElementById(
-"popup"
-).style.display = "none";
-
-};
-
-</script></body></html>
+</script>
+<script>
+function showPopup(msg) { document.getElementById("popupText").textContent = msg; document.getElementById("popup").style.display = "flex"; }
+function closePopup() { document.getElementById("popup").style.display = "none"; }
+</script>
+</body>
+</html>

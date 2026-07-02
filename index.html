@@ -3,729 +3,885 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indupalli Services</title>
-
+<title>Indupalli Services – Professional Staffing & Recruitment</title>
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Calibri, Arial, sans-serif;
+:root {
+  --blue: #0056d2; 
+  --dark: #001b5e; 
+  --green: #00b86b;
+  --orange: #ff7a00; 
+  --bg: #f8fafc; 
+  --text: #0f172a;
+  --card: #ffffff; 
+  --shadow: 0 10px 30px -5px rgba(0, 86, 210, 0.08), 0 4px 12px -4px rgba(0, 86, 210, 0.03);
+  --shadow-3d: 0 35px 60px -15px rgba(0, 27, 94, 0.18), 0 20px 40px -20px rgba(0, 86, 210, 0.2);
+  --border-radius: 20px;
+  --transition-3d: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
 }
 
-body{
-background:#f4f7fc;
-color:#222;
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Calibri,Arial,sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+
+/* ── 3D CORE ENGINE ── */
+.perspective-container {
+  perspective: 1400px;
+  transform-style: preserve-3d;
 }
 
-/* Header */
-header{
-background:#fff;
-padding:15px 5%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 10px rgba(0,0,0,0.08);
-position:sticky;
-top:0;
-z-index:1000;
-flex-wrap:wrap;
-border-bottom:3px solid #0056ff;
+.card-3d {
+  background: var(--card);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0, 86, 210, 0.05);
+  transform-style: preserve-3d;
+  transition: var(--transition-3d);
+  will-change: transform, box-shadow;
 }
 
-.logo{
-display:flex;
-align-items:center;
-gap:10px;
+.card-3d:hover {
+  transform: translateY(-10px) rotateX(6deg) rotateY(-4deg);
+  box-shadow: var(--shadow-3d);
+  border-color: rgba(0, 86, 210, 0.15);
 }
 
-.logo img{
-height:60px;
-width:auto;
-border-radius:10px;
+/* Pops inner content forward on the Z-Axis */
+.card-3d-lift {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(0px);
+}
+.card-3d:hover .card-3d-lift {
+  transform: translateZ(32px);
 }
 
-.logo-text h2{
-font-size:28px;
-color:#0056ff;
+/* ── HEADER ── */
+header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0 5%;
+  display: flex; justify-content: space-between; align-items: center;
+  height: 76px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  position: sticky; top: 0; z-index: 1000;
+  border-bottom: 2px solid rgba(0, 86, 210, 0.1);
+}
+.logo { display:flex; align-items:center; gap:14px; text-decoration:none; transition: transform 0.3s ease; }
+.logo:hover { transform: scale(1.02); }
+.logo img { height:48px; border-radius:10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.logo-text h2 { font-size:22px; color:var(--dark); font-weight:800; letter-spacing:-0.5px; }
+.logo-text p { font-size:10px; color:var(--blue); font-weight: 700; letter-spacing:1px; margin-top:-2px; }
+
+nav { display:flex; gap:6px; align-items:center; }
+nav a { text-decoration:none; font-weight:600; color:#475569; padding:8px 14px; border-radius:10px; font-size:13.5px; transition:.25s cubic-bezier(0.16, 1, 0.3, 1); white-space:nowrap; }
+nav a:hover { color:var(--blue); background:#f0f6ff; }
+.nav-login { background:var(--blue)!important; color:#fff!important; padding:9px 16px!important; border-radius:12px!important; box-shadow: 0 4px 12px rgba(0, 86, 210, 0.2); }
+.nav-login:hover { background:#0045ab!important; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 86, 210, 0.3); }
+.nav-recruiter { background:var(--orange)!important; color:#fff!important; padding:9px 16px!important; border-radius:12px!important; box-shadow: 0 4px 12px rgba(255, 122, 0, 0.2); }
+.nav-recruiter:hover { background:#d96800!important; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(255, 122, 0, 0.3); }
+
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; z-index: 1100; }
+.hamburger span { width:24px; height:2.5px; background:var(--dark); border-radius:2px; transition:.3s; }
+
+/* ── HERO ── */
+.hero {
+  background: radial-gradient(circle at 80% 20%, #1e40af 0%, var(--dark) 50%, #020617 100%);
+  padding: 120px 5% 100px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-inner { position:relative; max-width:1200px; margin:auto; display:flex; gap:60px; align-items:center; }
+.hero-content { flex:1; }
+.hero-badge {
+  display:inline-flex; align-items:center; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  padding:7px 16px; border-radius:30px; font-size:13px;
+  font-weight:600; margin-bottom:24px; letter-spacing:.5px; backdrop-filter: blur(4px);
+}
+.hero h1 { font-size:56px; font-weight:900; line-height:1.15; margin-bottom:24px; letter-spacing: -1px; }
+.hero h1 span { color:#60a5fa; text-shadow: 0 0 40px rgba(96, 165, 250, 0.2); }
+.hero p { font-size:18px; line-height:1.8; opacity:.85; max-width:580px; margin-bottom:40px; color: #cbd5e1; }
+.hero-btns { display:flex; gap:16px; flex-wrap:wrap; }
+
+.btn-white {
+  background:#fff; color:var(--dark); padding:16px 32px; border-radius:14px;
+  font-weight:700; font-size:15px; text-decoration:none; transition: var(--transition-3d);
+  display:inline-flex; align-items:center; gap:8px; box-shadow: 0 10px 25px rgba(255,255,255,0.1);
+}
+.btn-white:hover { background:#f8fafc; transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255,255,255,0.2); }
+.btn-outline {
+  background:transparent; color:#fff; border:2px solid rgba(255,255,255,.25);
+  padding:15px 32px; border-radius:14px; font-weight:700; font-size:15px;
+  text-decoration:none; transition: var(--transition-3d); display:inline-flex; align-items:center; gap:8px;
+}
+.btn-outline:hover { background:rgba(255,255,255,.06); border-color:#fff; transform: translateY(-3px); }
+
+.hero-stats { display:flex; gap:40px; margin-top:50px; flex-wrap:wrap; }
+.hero-stat { text-align:left; background: rgba(255,255,255,0.03); padding: 12px 24px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+.hero-stat .num { font-size:36px; font-weight:900; color: #fff; line-height: 1.2; }
+.hero-stat .lbl { font-size:11px; opacity:.7; letter-spacing:1px; text-transform: uppercase; margin-top: 2px; font-weight: 700; }
+
+.hero-img { flex-shrink:0; display:flex; align-items:center; justify-content:center; perspective: 1200px; transform-style: preserve-3d; }
+.hero-img img {
+  width:460px; max-width:100%; height:auto; border-radius:24px;
+  box-shadow: 0 40px 80px -15px rgba(0,0,0,0.5), 0 0 50px rgba(0, 86, 210, 0.2);
+  border: 1px solid rgba(255,255,255,0.15); display:block;
+  animation: float3D 6s ease-in-out infinite;
+}
+@keyframes float3D { 
+  0%, 100% { transform: translateY(0) rotateY(-8deg) rotateX(6deg); } 
+  50% { transform: translateY(-15px) rotateY(4deg) rotateX(-2deg); } 
 }
 
-.logo-text p{
-font-size:13px;
-color:#666;
-}
+/* ── LAYOUT SECTIONS ── */
+section { padding:90px 5%; position: relative; }
+.section-label { font-size:12px; font-weight:800; color:var(--blue); letter-spacing:2px; text-transform:uppercase; text-align:center; margin-bottom:12px; }
+.section-title { text-align:center; font-size:40px; font-weight:800; color:var(--dark); margin-bottom:16px; letter-spacing: -0.5px; }
+.section-sub { text-align:center; color:#64748b; font-size:16.5px; line-height:1.75; max-width:640px; margin:0 auto 60px; }
 
-nav{
-display:flex;
-gap:18px;
-flex-wrap:wrap;
-align-items:center;
-}
+/* ── SERVICES ── */
+#services { background:#fff; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px; }
+.card { padding:40px 32px; }
+.card-icon { font-size:42px; margin-bottom:24px; display: inline-block; transition: transform 0.4s ease; }
+.card:hover .card-icon { transform: scale(1.15) translateZ(15px); }
+.card h3 { color:var(--dark); font-size:20px; font-weight:700; margin-bottom:12px; }
+.card p { color:#475569; line-height:1.7; font-size:14.5px; }
 
-nav a{
-text-decoration:none;
-font-weight:600;
-color:#333;
-transition:0.3s;
+/* ── HOW IT WORKS ── */
+#how { background:var(--bg); }
+.steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:24px; }
+.step { padding:36px 24px; text-align:center; }
+.step-num {
+  width:54px; height:54px; background: linear-gradient(135deg, var(--blue), var(--dark)); color:#fff;
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:22px; font-weight:900; margin:0 auto 20px;
+  box-shadow: 0 8px 20px rgba(0, 86, 210, 0.25);
 }
+.step:hover .step-num { transform: scale(1.05) translateZ(10px); }
+.step h4 { color:var(--dark); font-size:17px; font-weight:700; margin-bottom:10px; }
+.step p { color:#64748b; font-size:14px; line-height:1.65; }
 
-nav a:hover{
-color:#0056ff;
+/* ── ABOUT FOUNDER ── */
+#about { background:#fff; }
+.about-box {
+  background: radial-gradient(circle at top left, var(--dark), #031442);
+  border-radius: 32px; padding: 60px; color: #fff;
+  display: flex; gap: 50px; align-items: center; flex-wrap: wrap;
+  max-width: 1100px; margin: auto;
+  box-shadow: 0 30px 70px rgba(0,27,94,0.25);
+  border: 1px solid rgba(255,255,255,0.05);
 }
-
-.login-btn{
-background:#0056ff;
-color:white;
-padding:10px 15px;
-border-radius:8px;
-text-decoration:none;
+.about-box:hover {
+  transform: translateY(-6px) rotateX(3deg) rotateY(1deg);
+  box-shadow: 0 40px 90px rgba(0,27,94,0.35);
 }
-
-.signup-btn{
-background:green;
-color:white;
-padding:10px 15px;
-border-radius:8px;
-text-decoration:none;
+.about-img { flex-shrink:0; transform-style: preserve-3d; }
+.about-img img {
+  width:210px; height:210px; border-radius:50%;
+  object-fit:cover; object-position:center top;
+  border:6px solid rgba(255,255,255,.1);
+  box-shadow: 0 20px 45px rgba(0,0,0,.4);
+  transition: transform 0.5s ease;
 }
-
-/* Hero */
-.hero{
-background:linear-gradient(135deg,#0056ff,#001b7a);
-padding:80px 5%;
-text-align:center;
-color:#fff;
-}
-
-.hero h1{
-font-size:50px;
-margin-bottom:15px;
-}
-
-.hero p{
-font-size:18px;
-line-height:1.8;
-max-width:900px;
-margin:auto;
-}
-
-.btn{
-display:inline-block;
-padding:14px 28px;
-background:#fff;
-color:#0056ff;
-text-decoration:none;
-border-radius:10px;
-font-weight:bold;
-margin-top:20px;
-transition:0.3s;
-}
-
-.btn:hover{
-background:#003dcc;
-color:#fff;
-}
-
-/* Sections */
-.section{
-padding:60px 5%;
-}
-
-.section-title{
-text-align:center;
-font-size:36px;
-color:#0056ff;
-margin-bottom:40px;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
-}
-
-.card{
-background:#fff;
-padding:30px;
-border-radius:20px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-text-align:center;
-}
-
-.card h3{
-color:#0056ff;
-margin-bottom:12px;
-}
-
-/* About */
-.about-box{
-background:#fff;
-padding:30px;
-border-radius:20px;
-display:flex;
-gap:30px;
-align-items:center;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-flex-wrap:wrap;
-}
-
-.about-box img{
-width:220px;
-height:220px;
-border-radius:20px;
-object-fit:cover;
-}
-
-.about-text{
-flex:1;
-}
-
-.about-text h2{
-color:#0056ff;
-margin-bottom:10px;
-}
-
-/* Jobs */
-.job-box{
-background:#fff;
-padding:25px;
-border-radius:20px;
-margin-bottom:20px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-.job-box h3{
-color:#0056ff;
-margin-bottom:10px;
-}
-
-/* Footer */
-footer{
-background:#001b7a;
-color:#fff;
-text-align:center;
-padding:40px 5%;
-margin-top:40px;
-}
-
-footer img{
-height:60px;
-margin-bottom:10px;
-border-radius:10px;
-}
-
-@media(max-width:768px){
-header{
-flex-direction:column;
-text-align:center;
-}
-
-nav{
-justify-content:center;
-margin-top:15px;
-}
-
-.hero h1{
-font-size:34px;
-}
-
-.about-box{
-flex-direction:column;
-text-align:center;
-}
-}
+.about-box:hover .about-img img { transform: translateZ(25px) scale(1.03); }
+.about-content { flex:1; min-width:280px; transform-style: preserve-3d; }
+.about-content h2 { font-size:36px; font-weight:800; margin-bottom:6px; letter-spacing: -0.5px; }
+.about-content .role { color:#60a5fa; font-weight: 700; font-size:13px; margin-bottom:24px; letter-spacing:1.5px; text-transform: uppercase; }
+.about-content p { opacity:.9; line-height:1.85; font-size:15.5px; margin-bottom:14px; color: #e2e8f0; }
+.about-content .social-links img { width:36px; border-radius:10px; opacity:.85; transition:.3s ease; background: rgba(255,255,255,0.05); padding: 6px; }
+.about-content .social-links a:hover img { opacity:1; transform: scale(1.1) translateZ(15px); background: rgba(255,255,255,0.15); }
 </style>
 </head>
-
 <body>
 
 <header>
+  <a href="index.html" class="logo">
+    <img src="1000174411.png" alt="Indupalli Services">
+    <div class="logo-text">
+      <h2>Indupalli Services</h2>
+      <p>PROFESSIONAL STAFFING</p>
+    </div>
+  </a>
 
-<div class="logo">
+  <div class="hamburger" onclick="toggleNav()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
 
-<a href="index.html" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
-
-<img src="1000174411.png" alt="Logo">
-
-<div class="logo-text">
-<h2>Indupalli Services</h2>
-<p>Professional Staffing</p>
-</div>
-
-</a>
-
-</div>
-
-<nav>
-<a href="#home">Home</a>
-<a href="#about">About</a>
-<a href="#services">Services</a>
-<a href="#pricing">Pricing</a>
-<a href="#jobs">Jobs</a>
-<a href="#contact">Contact</a>
-
-<a href="login.html" class="login-btn">
-Job Seeker Login
-</a>
-<a href="recruiter-login.html"
-style="
-background:#ff9800;
-color:white;
-padding:14px 20px;
-border-radius:12px;
-text-decoration:none;
-font-weight:bold;
-display:inline-block;
-margin:8px;">
-Recruiter Login
-</a>
-
-</nav>
-
+  <nav id="mainNav">
+    <a href="#home">Home</a>
+    <a href="#services">Services</a>
+    <a href="#how">How It Works</a>
+    <a href="#jobs">Jobs</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="login.html" class="nav-login">Job Seeker</a>
+    <a href="recruiter-login.html" class="nav-recruiter">Recruiter</a>
+    <button onclick="toggleDark()" style="background:none;border:none;cursor:pointer;font-size:20px;padding:8px;" title="Toggle dark mode">🌙</button>
+  </nav>
 </header>
 
 <section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">🎯 Trusted Staffing & Recruitment Platform</div>
+      <h1>Find Your <span>Dream Career</span><br>With Indupalli Services</h1>
+      <p>Connecting talented professionals with leading organizations across India. Start your journey today with India's most trusted hiring platform.</p>
+      <div class="hero-btns">
+        <a href="signup.html" class="btn-white">🎯 Get Started Free</a>
+        <a href="login.html" class="btn-outline">🔑 Job Seeker Login</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num" id="statJobs">0+</div><div class="lbl">JOBS POSTED</div></div>
+        <div class="hero-stat"><div class="num" id="statApps">0+</div><div class="lbl">APPLICATIONS</div></div>
+        <div class="hero-stat"><div class="num">100%</div><div class="lbl">SATISFACTION</div></div>
+      </div>
+    </div>
+<div class="hero-img">
+  <img src="0000000085f071.jpg" alt="Indupalli ATS Platform">
+</div>
 
-<h1>Welcome to Indupalli Services</h1>
+    </div>
 
-<p>
-Indupalli Services is a trusted recruitment and staffing company committed to connecting talented professionals with leading organizations.
-</p>
 
-<a href="mailto:indupalli24@gmail.com" class="btn">
-Contact Us
-</a>
+
+<section id="services" class="perspective-container">
+  <div class="section-label">What We Offer</div>
+  <h2 class="section-title">Our Core Services</h2>
+  <p class="section-sub">End-to-end staffing and recruitment solutions tailored for businesses and job seekers alike.</p>
+  <div class="cards">
+    <div class="card card-3d">
+      <div class="card-3d-lift">
+        <div class="card-icon">🎯</div>
+        <h3>Recruitment Services</h3>
+        <p>Expert talent sourcing and screening to help companies hire the best professionals quickly and efficiently.</p>
+      </div>
+    </div>
+    <div class="card card-3d">
+      <div class="card-3d-lift">
+        <div class="card-icon">🏢</div>
+        <h3>Staffing Solutions</h3>
+        <p>Flexible temporary, contract, and permanent staffing support for businesses of all sizes across industries.</p>
+      </div>
+    </div>
+    <div class="card card-3d">
+      <div class="card-3d-lift">
+        <div class="card-icon">💼</div>
+        <h3>Career Support</h3>
+        <p>Resume building, interview coaching, and career guidance to help job seekers land their dream roles.</p>
+      </div>
+    </div>
+    <div class="card card-3d">
+      <div class="card-3d-lift">
+        <div class="card-icon">📊</div>
+        <h3>HR Consulting</h3>
+        <p>Strategic HR advice and workforce planning to optimize your hiring process and reduce time-to-hire.</p>
+      </div>
+    </div>
+    <div class="card card-3d">
+      <div class="card-3d-lift">
+        <div class="card-icon">🔍</div>
+        <h3>Executive Search</h3>
+        <p>Specialized search for senior leadership and C-suite roles with a rigorous vetting process.</p>
+      </div>
+    </div>
+    <div class="card card-3d">
+      <div class="card-3d-lift">
+        <div class="card-icon">🌐</div>
+        <h3>Campus Hiring</h3>
+        <p>Connecting fresh graduates with leading companies through structured campus recruitment drives.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="perspective-container">
+  <div class="section-label">Simple Process</div>
+  <h2 class="section-title">How It Works</h2>
+  <p class="section-sub">Get hired in 4 simple steps — from registration to receiving your offer letter.</p>
+  <div class="steps">
+    <div class="step card-3d">
+      <div class="card-3d-lift">
+        <div class="step-num">1</div>
+        <h4>Register</h4>
+        <p>Create your free account in under 2 minutes with just your email.</p>
+      </div>
+    </div>
+    <div class="step card-3d">
+      <div class="card-3d-lift">
+        <div class="step-num">2</div>
+        <h4>Build Profile</h4>
+        <p>Complete your profile and upload your resume to stand out.</p>
+      </div>
+    </div>
+    <div class="step card-3d">
+      <div class="card-3d-lift">
+        <div class="step-num">3</div>
+        <h4>Apply for Jobs</h4>
+        <p>Browse hundreds of live jobs and apply with a single click.</p>
+      </div>
+    </div>
+    <div class="step card-3d">
+      <div class="card-3d-lift">
+        <div class="step-num">4</div>
+        <h4>Get Hired</h4>
+        <p>Track your applications and receive interview invitations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="perspective-container">
+  <div class="section-label">Our Story</div>
+  <h2 class="section-title">About the Founder</h2>
+  <div class="about-box var-3d-box">
+    <div class="about-img">
+      <img src="1000173456.jpg" alt="Praveen Indupalli">
+    </div>
+    <div class="about-content">
+      <h2>Praveen Indupalli</h2>
+      <p class="role">FOUNDER & MANAGING DIRECTOR</p>
+      <p>Praveen Indupalli is dedicated to delivering trusted staffing and recruitment solutions that connect talented professionals with the right career opportunities.</p>
+      <p>With a strong vision for helping job seekers and businesses grow together, he founded Indupalli Services to simplify the hiring process and create meaningful employment opportunities across India.</p>
+      <p>Under his leadership, the company is committed to professionalism, trust, and long-term relationships with both employers and job seekers.</p>
+      <div class="social-links" style="margin-top:24px;">
+        <a href="https://www.linkedin.com/in/praveen-indupalli" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+        </a>
+        <a href="https://www.instagram.com/always_pk__/" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+/* ── SYSTEM ADAPTATIONS FOR REMAINING BLOCKS ── */
+#jobsContainer .job-card {
+  background: var(--card); padding: 30px; border-radius: 18px;
+  margin-bottom: 20px; box-shadow: var(--shadow);
+  border-left: 6px solid var(--blue);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 20px;
+  transform-style: preserve-3d;
+  transition: var(--transition-3d);
+  border-top: 1px solid rgba(0,86,210,0.02);
+  border-right: 1px solid rgba(0,86,210,0.02);
+  border-bottom: 1px solid rgba(0,86,210,0.02);
+}
+#jobsContainer .job-card:hover {
+  transform: translateY(-6px) rotateX(3deg) rotateY(-1deg);
+  box-shadow: var(--shadow-3d);
+  border-color: rgba(0, 86, 210, 0.2);
+}
+.job-card-left { transform-style: preserve-3d; }
+.job-card-left h3 { color:var(--dark); font-size:21px; font-weight:700; margin-bottom:10px; transition: transform 0.4s ease; }
+#jobsContainer .job-card:hover h3 { transform: translateZ(20px); }
+
+.job-meta { display:flex; gap:20px; flex-wrap:wrap; margin-top:12px; }
+.job-meta span { font-size:13.5px; color:#475569; display:flex; align-items:center; gap:6px; font-weight: 500; }
+.badge { display:inline-block; padding:5px 14px; border-radius:30px; font-size:12px; font-weight:700; letter-spacing: 0.3px; }
+.badge-blue { background:#e0f2fe; color:var(--blue); }
+.badge-green { background:#dcfce7; color:var(--green); }
+
+.apply-btn {
+  background: linear-gradient(135deg, var(--blue), #1d4ed8); color:#fff;
+  padding:14px 28px; border:none; border-radius:12px;
+  font-size:14.5px; font-weight:700; cursor:pointer;
+  transition: .3s cubic-bezier(0.16, 1, 0.3, 1); white-space:nowrap;
+  box-shadow: 0 4px 12px rgba(0, 86, 210, 0.15);
+}
+.apply-btn:hover { background: var(--dark); transform: translateZ(25px) scale(1.03); box-shadow: 0 10px 20px rgba(0, 27, 94, 0.2); }
+
+/* ── TESTIMONIALS ── */
+#testimonials { background:#fff; }
+.testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:28px; }
+.testimonial { padding:36px 30px; border-left:4px solid var(--blue); position: relative; }
+.stars { color:#f59e0b; font-size:18px; margin-bottom:16px; }
+.testimonial p { color:#475569; font-size:14.5px; line-height:1.75; font-style:italic; margin-bottom:20px; }
+.testimonial-author h4 { color:var(--dark); font-size:16px; font-weight:700; }
+.testimonial-author p { color:#94a3b8; font-size:13px; font-weight: 600; margin-top: 2px; }
+
+/* ── PRICING ── */
+#pricing { background:var(--bg); }
+.pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px; max-width:1050px; margin:auto; }
+.pricing-card { padding:44px 32px; text-align:center; border-top: 6px solid transparent; }
+.pricing-card.blue-top { border-top-color:var(--blue); }
+.pricing-card.green-top { border-top-color:var(--green); }
+.pricing-card.orange-top { border-top-color:var(--orange); }
+.pricing-card h3 { font-size:20px; font-weight:700; color:var(--dark); margin-bottom:16px; }
+.pricing-price { font-size:46px; font-weight:900; color: var(--dark); margin-bottom:8px; }
+.pricing-price span { font-size:14px; font-weight:500; color:#64748b; }
+.pricing-card ul { list-style:none; margin:24px 0 32px; }
+.pricing-card ul li { padding:10px 0; font-size:14.5px; color:#475569; border-bottom:1px solid #f1f5f9; }
+.pricing-card ul li:last-child { border-bottom:none; }
+.pay-btn {
+  display:block; width: 100%; padding:14px 24px; border-radius:12px; font-weight:700; font-size:15px;
+  text-decoration:none; transition:.3s; color:#fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.pay-btn:hover { transform: translateZ(20px) scale(1.02); opacity:0.95; }
+
+/* ── FOOTER ── */
+footer { background: #090d16; color:#fff; padding:80px 5% 40px; border-top: 4px solid var(--blue); }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; margin-bottom:50px; align-items:start; }
+.footer-brand img { height:54px; border-radius:10px; margin-bottom:18px; display:block; }
+.footer-brand h3 { font-size:22px; font-weight:800; margin-bottom:12px; color:#fff; letter-spacing: -0.5px; }
+.footer-brand p { color:#94a3b8; font-size:14.5px; line-height:1.8; max-width: 360px; }
+.footer-col h4 { font-size:12px; font-weight:800; color:#60a5fa; letter-spacing:2px; text-transform:uppercase; margin-bottom:20px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,.08); }
+.footer-col a { display:block; color:#cbd5e1; text-decoration:none; font-size:14.5px; margin-bottom:12px; transition:.25s ease; }
+.footer-col a:hover { color:#60a5fa; padding-left:6px; }
+.footer-brand .social-links a img { width:34px; border-radius:8px; opacity:.75; transition:.2s; display:block; background: none; padding: 0; }
+.footer-brand .social-links a:hover img { opacity:1; transform: scale(1.1); }
+.footer-bottom { border-top:1px solid rgba(255,255,255,.06); padding-top:30px; text-align:center; color:#64748b; font-size:14px; }
+
+/* ── MODERN SYSTEM DARK OVERLAY ── */
+body.dark { --bg:#0b0f19; --card:#151f32; --text:#f1f5f9; background:#0b0f19; color:#f1f5f9; }
+body.dark header { background: rgba(21, 31, 50, 0.95); border-color: rgba(255,255,255,0.05); }
+body.dark header .logo-text h2 { color: #fff; }
+body.dark nav a { color:#94a3b8; }
+body.dark nav a:hover { color:#fff; background:#1e293b; }
+body.dark #services, body.dark #about, body.dark #testimonials { background:#151f32; }
+body.dark .card-3d { border-color: rgba(255, 255, 255, 0.04); background: #1e293b; }
+body.dark .card-3d:hover { border-color: rgba(96, 165, 250, 0.2); box-shadow: 0 40px 80px -15px rgba(0,0,0,0.6); }
+body.dark .card h3, body.dark .step h4, body.dark .pricing-price, body.dark .testimonial-author h4 { color:#fff; }
+body.dark .section-title { color: #fff; }
+body.dark .search-box { background:#1e293b; color:#fff; border-color:#334155; }
+body.dark #jobsContainer .job-card { background:#1e293b; border-top-color: transparent; border-right-color: transparent; border-bottom-color: transparent; }
+body.dark #jobsContainer .job-card:hover { box-shadow: 0 35px 60px -15px rgba(0,0,0,0.6); }
+body.dark .job-meta span { color: #94a3b8; }
+
+/* ── RE-ENGINEERED PAGINATION DESIGN ── */
+.pag-btn {
+  padding: 10px 18px; margin: 0 4px; border: 1px solid rgba(0, 86, 210, 0.1);
+  border-radius: 10px; background: var(--card); color: var(--text);
+  font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+.pag-btn:hover { background: #f0f6ff; color: var(--blue); transform: translateY(-2px); }
+.pag-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); box-shadow: 0 4px 12px rgba(0, 86, 210, 0.25); }
+body.dark .pag-btn { border-color: rgba(255,255,255,0.05); }
+body.dark .pag-btn:hover { background: #1e293b; color: #fff; }
+</style>
+
+<section id="job-openings" style="background: var(--bg); transition: background 0.4s;">
+  <div style="max-width: 1000px; margin: 0 auto;" class="perspective-container">
+    
+    <<div style="text-align:center; margin-bottom:50px;">
+
+    <div class="section-label">
+        Careers
+    </div>
+
+    <h2 class="section-title">
+        Current Openings
+    </h2>
+
+    <p class="section-sub">
+        Find your next opportunity with Indupalli Services.
+    </p>
+</div>
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+
+    <h3 style="margin:0; background:#000; color:#fff; display:inline-block; padding:8px 16px; border-radius:8px;">
+    Latest Openings
+</h3>
+
+    <a href="jobs.html"
+       style="background:#0d6efd;
+              color:#fff;
+              text-decoration:none;
+              padding:10px 18px;
+              border-radius:8px;
+              font-weight:600;">
+        See All Jobs →
+    </a>
+
+</div>
+
+<div id="jobsContainer" style="display:flex; flex-direction:column; gap:18px; margin-bottom:30px;">
+      <p style="text-align: center; color: #64748b; padding: 40px; font-weight:500;">Loading available openings...</p>
+      
+    </div>
+
 
 </section>
 
-<section class="section" id="services">
+<div id="applyModal" style="display:none; position:fixed; inset:0; background:rgba(15, 23, 42, 0.6); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:10000; align-items:center; justify-content:center; padding:15px;">
+  <div style="background:var(--card); border-radius:24px; max-width:520px; width:100%; padding:36px; box-shadow: 0 30px 60px -12px rgba(0,0,0,0.3); position:relative; border: 1px solid rgba(255,255,255,0.05);">
+    <h3 id="modalJobTitle" style="color:var(--dark); font-size:22px; margin-bottom:6px; font-weight:800; letter-spacing:-0.5px;">Apply for Position</h3>
+    <p id="modalJobMeta" style="color:#64748b; font-size:14px; margin-bottom:24px; font-weight:500;">Loading job details...</p>
+    
+    <form id="applicationForm" style="display:flex; flex-direction:column; gap:16px;">
+      <input type="hidden" id="applyJobId">
+      
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:11.5px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.5px;">Full Name *</label>
+        <input type="text" id="candName" required placeholder="John Doe" style="padding:12px; border:2px solid rgba(0, 86, 210, 0.08); border-radius:10px; background:var(--bg); color:var(--text); font-size:14.5px;">
+      </div>
 
-<h2 class="section-title">Our Services</h2>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:11.5px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.5px;">Email Address *</label>
+        <input type="email" id="candEmail" required placeholder="johndoe@example.com" style="padding:12px; border:2px solid rgba(0, 86, 210, 0.08); border-radius:10px; background:var(--bg); color:var(--text); font-size:14.5px;">
+      </div>
 
-<div class="cards">
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:11.5px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.5px;">Phone Number *</label>
+        <input type="tel" id="candPhone" required placeholder="+91 98765 43210" style="padding:12px; border:2px solid rgba(0, 86, 210, 0.08); border-radius:10px; background:var(--bg); color:var(--text); font-size:14.5px;">
+      </div>
 
-<div class="card">
-<h3>Recruitment Services</h3>
-<p>Helping companies hire skilled professionals.</p>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:11.5px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.5px;">Total Experience *</label>
+        <input type="text" id="candExp" required placeholder="e.g., 2 Years, or Fresher" style="padding:12px; border:2px solid rgba(0, 86, 210, 0.08); border-radius:10px; background:var(--bg); color:var(--text); font-size:14.5px;">
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:11.5px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.5px;">Key Skills *</label>
+        <input type="text" id="candSkills" required placeholder="e.g., HTML, Excel, Customer Support" style="padding:12px; border:2px solid rgba(0, 86, 210, 0.08); border-radius:10px; background:var(--bg); color:var(--text); font-size:14.5px;">
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:11.5px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.5px;">Short Cover Letter</label>
+        <textarea id="candCover" rows="3" placeholder="Why should we hire you?" style="padding:12px; border:2px solid rgba(0, 86, 210, 0.08); border-radius:10px; background:var(--bg); color:var(--text); resize:vertical; font-family:inherit; font-size:14.5px;"></textarea>
+      </div>
+
+      <div style="display:flex; gap:12px; margin-top:12px; justify-content:flex-end;">
+        <button type="button" onclick="closeApplyModal()" style="padding:12px 20px; background:rgba(0,0,0,0.05); border:none; border-radius:10px; font-weight:600; cursor:pointer; color:var(--text);">Cancel</button>
+        <button type="submit" style="padding:12px 24px; background:var(--blue); color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(0, 86, 210, 0.2);">Submit Application 🚀</button>
+      </div>
+    </form>
+  </div>
 </div>
 
-<div class="card">
-<h3>Staffing Solutions</h3>
-<p>Providing flexible staffing support.</p>
-</div>
-
-<div class="card">
-<h3>Career Support</h3>
-<p>Helping job seekers find better opportunities.</p>
-</div>
-
-</div>
-
+<section id="testimonials" class="perspective-container">
+  <div class="section-label">What People Say</div>
+  <h2 class="section-title">Client Testimonials</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial card-3d">
+      <div class="card-3d-lift">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Indupalli Services provides a simple and professional platform. The website is easy to use and helped me connect with recruiters efficiently."</p>
+        <div class="testimonial-author"><h4>Indupalli Jayasri</h4><p>IIIT Student</p></div>
+      </div>
+    </div>
+    <div class="testimonial card-3d">
+      <div class="card-3d-lift">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Excellent platform with a clean interface and useful job opportunities. The application process is smooth and very user-friendly."</p>
+        <div class="testimonial-author"><h4>Johnny Niel</h4><p>Software Developer</p></div>
+      </div>
+    </div>
+    <div class="testimonial card-3d">
+      <div class="card-3d-lift">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Professional recruitment services and responsive support. A great platform for candidates looking for quality career opportunities."</p>
+        <div class="testimonial-author"><h4>Sandra Franklin</h4><p>Engineer</p></div>
+      </div>
+    </div>
+    <div class="testimonial card-3d">
+      <div class="card-3d-lift">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"The job portal is easy to navigate and provides quality opportunities. I highly recommend it to all professionals seeking growth."</p>
+        <div class="testimonial-author"><h4>Moses Lyth</h4><p>Senior Executive</p></div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="section" id="about">
-
-<h2 class="section-title">About Founder</h2>
-
-<div class="about-box">
-
-<img src="1000173456.jpg" alt="Founder">
-
-<div class="about-text">
-<h2>Praveen Indupalli</h2>
-<h4>Founder & Managing Director</h4>
-
-<p>
-Praveen Indupalli is dedicated to delivering trusted staffing and recruitment solutions that connect talented professionals with the right career opportunities. With a strong vision for helping job seekers and businesses grow together, he founded Indupalli Services to simplify the hiring process and create meaningful employment opportunities.
-</p>
-
-<p>
-At Indupalli Services, we focus on professional staffing, recruitment support, candidate sourcing, and workforce solutions across multiple industries. Our goal is to provide reliable hiring services for businesses while helping candidates find rewarding careers through a smooth and professional application process.
-</p>
-
-<p>
-Under the leadership of Praveen Indupalli, the company is committed to professionalism, trust, quality hiring, and long-term relationships with both employers and job seekers. We aim to bridge the gap between talent and opportunity through innovative recruitment solutions and dedicated support.
-</p>
-</p>
-
-</div>
-
-</div>
-
-</section>
-<section id="testimonials" style="padding:60px 20px;background:#f8f9fc;">
-
-<h2 style="
-text-align:center;
-color:#0056d2;
-margin-bottom:40px;
-font-size:36px;
-">
-What People Say About Us
-</h2>
-
-<div style="
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:20px;
-">
-
-<div style="
-background:white;
-padding:25px;
-border-radius:15px;
-max-width:300px;
-box-shadow:0 4px 15px rgba(0,0,0,0.1);
-">
-⭐⭐⭐⭐⭐
-<p style="margin-top:15px;">
-"Indupalli Services provides a simple and professional platform for job seekers. The website is easy to use and helps candidates connect with recruiters efficiently."
-</p>
-<h4 style="margin-top:15px;color:#0056d2;">
-Indupalli Jayasri
-</h4>
-<p>IIIT Student</p>
-</div>
-
-<div style="
-background:white;
-padding:25px;
-border-radius:15px;
-max-width:300px;
-box-shadow:0 4px 15px rgba(0,0,0,0.1);
-">
-⭐⭐⭐⭐⭐
-<p style="margin-top:15px;">
-"Excellent platform with a clean interface and useful job opportunities. The application process is smooth and user-friendly."
-</p>
-<h4 style="margin-top:15px;color:#0056d2;">
-Johnny Niel
-</h4>
-<p>Software Developer</p>
-</div>
-
-<div style="
-background:white;
-padding:25px;
-border-radius:15px;
-max-width:300px;
-box-shadow:0 4px 15px rgba(0,0,0,0.1);
-">
-⭐⭐⭐⭐⭐
-<p style="margin-top:15px;">
-"Professional recruitment services and responsive support. A great platform for candidates looking for career opportunities."
-</p>
-<h4 style="margin-top:15px;color:#0056d2;">
-Sandra Franklin
-</h4>
-<p>Engineer</p>
-</div>
-
-<div style="
-background:white;
-padding:25px;
-border-radius:15px;
-max-width:300px;
-box-shadow:0 4px 15px rgba(0,0,0,0.1);
-">
-⭐⭐⭐⭐⭐
-<p style="margin-top:15px;">
-"The job portal is easy to navigate and provides quality opportunities. I highly recommend it to professionals."
-</p>
-<h4 style="margin-top:15px;color:#0056d2;">
-Moses Lyth
-</h4>
-<p>Senior Executive</p>
-</div>
-
-</div>
-
-</section>
-<section class="section" id="jobs">
-<h2 class="section-title">
-Job Openings
-</h2>
-
-<div id="jobsContainer">
-</div>
-
+<section id="pricing" class="perspective-container">
+  <div class="section-label">Plans & Pricing</div>
+  <h2 class="section-title">Choose Your Plan</h2>
+  <p class="section-sub">Flexible recruitment packages designed for businesses of every size.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card card-3d blue-top">
+      <div class="card-3d-lift">
+        <h3>Customer Support</h3>
+        <div class="pricing-price" style="color:var(--blue)">₹199 <span>/ Month</span></div>
+        <ul>
+          <li>✅ Email Support</li>
+          <li>✅ Resume Screening</li>
+          <li>✅ Candidate Assistance</li>
+          <li>❌ Priority Support</li>
+          <li>❌ Database Access</li>
+        </ul>
+        <a href="upi://pay?pa=praveencenaindupalli@axl&pn=Praveen%20Indupalli&am=199&cu=INR" class="pay-btn" style="background:var(--blue)">Pay ₹199</a>
+      </div>
+    </div>
+    <div class="pricing-card card-3d green-top">
+      <div class="card-3d-lift">
+        <h3>Professional Hiring</h3>
+        <div class="pricing-price" style="color:var(--green)">₹299 <span>/ Month</span></div>
+        <ul>
+          <li>✅ Priority Support</li>
+          <li>✅ Candidate Shortlisting</li>
+          <li>✅ Interview Coordination</li>
+          <li>✅ Email Support</li>
+          <li>❌ Database Access</li>
+        </ul>
+        <a href="https://pay.google.com/gp/p/ui/pay?pa=praveencenaindupalli@axl&pn=Praveen%20Indupalli&am=299&cu=INR" target="_blank" class="pay-btn" style="background:var(--green)">Pay ₹299</a>
+      </div>
+    </div>
+    <div class="pricing-card card-3d orange-top">
+      <div class="card-3d-lift">
+        <h3>Database Access</h3>
+        <div class="pricing-price" style="color:var(--orange)">₹599 <span>/ Month</span></div>
+        <ul>
+          <li>✅ Full Database Access</li>
+          <li>✅ Resume Search</li>
+          <li>✅ Premium Support</li>
+          <li>✅ Shortlisting</li>
+          <li>✅ Interview Coordination</li>
+        </ul>
+        <a href="intent://pay?pa=praveencenaindupalli@axl&pn=Praveen%20Indupalli&am=599&cu=INR#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end" class="pay-btn" style="background:var(--orange)">Pay ₹599</a>
+      </div>
+    </div>
+  </div>
 </section>
 
 <footer id="contact">
-</section>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="1000174411.png" alt="Indupalli Services">
+      <h3>Indupalli Services</h3>
+      <p>Professional staffing and recruitment solutions connecting talented professionals with leading organizations across India.</p>
+      <div class="social-links" style="display:flex; gap:12px; margin-top:20px;">
+        <a href="https://www.linkedin.com/in/praveen-indupalli" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+        </a>
+        <a href="https://www.instagram.com/always_pk__/" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+        </a>
+      </div>
+    </div>
 
-<!-- PASTE PRICING CODE HERE -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#home">🏠 Home</a>
+      <a href="#services">⚙️ Services</a>
+      <a href="#jobs">💼 Job Openings</a>
+      <a href="#pricing">💳 Pricing</a>
+      <a href="#about">👤 About Us</a>
+      <a href="#contact">📧 Contact</a>
+    </div>
 
-<section class="section" id="pricing">
-
-<h2 class="section-title">
-Pricing Plans
-</h2>
-
-<p style="text-align:center;
-max-width:850px;
-margin:auto;
-line-height:28px;
-margin-bottom:40px;">
-
-Choose the right staffing and recruitment package
-for your business needs.
-
-</p>
-
-<div class="cards">
-
-<div class="card"
-style="background:white;
-padding:25px;
-border-radius:15px;
-margin:20px;
-border-top:6px solid blue;">
-
-<h3>Customer Support</h3>
-<h1 style="color:blue;">
-₹199 / Month
-</h1>
-<a href="upi://pay?pa=praveencenaindupalli@axl&pn=Praveen%20Indupalli&am=199&cu=INR"
-style="
-display:inline-block;
-background:#0056ff;
-color:white;
-padding:12px 25px;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;
-margin-top:15px;">
-Pay ₹199
-</a>
-
-<p>Email Support</p>
-<p>Resume Screening</p>
-<p>Candidate Assistance</p>
-
-</div>
-
-<div class="card"
-style="background:white;
-padding:25px;
-border-radius:15px;
-margin:20px;
-border-top:6px solid green;">
-
-<h3>Professional Hiring</h3>
-<h1 style="color:green;">
-₹299 / Month
-</h1>
-<a href="https://pay.google.com/gp/p/ui/pay?pa=praveencenaindupalli@axl&pn=Praveen%20Indupalli&am=199&cu=INR"
-target="_blank"
-style="
-display:inline-block;
-background:#0056ff;
-color:white;
-padding:12px 25px;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;">
-Pay ₹199
-</a>
-
-</p> Priority Support</p>
-<p>Candidate Shortlisting</p>
-<p>Interview Coordination</p>
-
-</div>
-
-<div class="card"
-style="background:white;
-padding:25px;
-border-radius:15px;
-margin:20px;
-border-top:6px solid orange;">
-
-<h3>Database Access</h3>
-<h1 style="color:orange;">
-₹599 / Month
-</h1>
-<a href="intent://pay?pa=praveencenaindupalli@axl&pn=Praveen%20Indupalli&am=599&cu=INR#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end"
-style="
-display:inline-block;
-background:orange;
-color:white;
-padding:12px 25px;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;">
-
-Pay ₹599
-</a>
-
-<p>Candidate Database</p>
-<p>Resume Search</p>
-<p>Premium Support</p>
-
-</div>
-
-</div>
-
-</section>
-
-<footer id="contact">
-<img src="1000174411.png" alt="Logo">
-
-<h2>Indupalli Services</h2>
-<p>Email: indupalli24@gmail.com</p>
-<p>Professional Staffing & Recruitment Solutions</p>
-
-<div style="margin-top:20px;">
-
-<a href="https://www.linkedin.com/in/praveen-indupalli" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="45">
-</a>
-
-<a href="https://www.instagram.com/always_pk__/" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="45">
-</a>
-
-</div>
-
-<p style="margin-top:20px;">
-© 2026 All Rights Reserved
-</p>
-
+    <div class="footer-col">
+      <h4>For Users</h4>
+      <a href="login.html">🔑 Job Seeker Login</a>
+      <a href="signup.html">✍️ Create Account</a>
+      <a href="recruiter-login.html">👔 Recruiter Login</a>
+      <a href="recruiter-register.html">📝 Recruiter Register</a>
+      <a href="mailto:indupalli24@gmail.com">✉️ Email Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>📧 indupalli24@gmail.com &nbsp;|&nbsp; © 2026 Indupalli Services. All Rights Reserved.</p>
+  </div>
 </footer>
 
-</body>
 <script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-getFirestore,
-collection,
-getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
-authDomain:
-"indupalli-services-18404.firebaseapp.com",
-projectId:
-"indupalli-services-18404",
-storageBucket:
-"indupalli-services-18404.firebasestorage.app",
-messagingSenderId:
-"187485195719",
-appId:
-"1:187485195719:web:a2f422b12c47ea2d549de2"
+  apiKey: "AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
+  authDomain: "indupalli-services-18404.firebaseapp.com",
+  projectId: "indupalli-services-18404",
+  storageBucket: "indupalli-services-18404.firebasestorage.app",
+  messagingSenderId: "187485195719",
+  appId: "1:187485195719:web:a2f422b12c47ea2d549de2"
 };
 
-const app =
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-const db =
-getFirestore(app);
+let allJobs = [];
+let currentPage = 1;
+const jobsPerPage = 7;
 
-async function loadJobs(){
+async function loadJobs() {
+  try {
+    const snapshot = await getDocs(collection(db, "jobs"));
+    allJobs = [];
+    snapshot.forEach(doc => {
+      const job = doc.data();
+      if (!job.isArchived) {
+        allJobs.push({ id: doc.id, ...job });
+      }
+    });
+    const stat = document.getElementById("statJobs");
+if (stat) {
+    stat.textContent = allJobs.length;
+}
+    renderJobs(allJobs);
+  } catch (e) {
+    console.error(e);
+    const container = document.getElementById("jobsContainer");
 
-const snapshot =
-await getDocs(
-collection(db,"jobs")
-);
-
-let html = "";
-
-snapshot.forEach((doc)=>{
-
-const job = doc.data();
-
-if(job.isArchived){
-return;
+if (container) {
+    container.innerHTML = `<p style="text-align:center;color:#ef4444;padding:40px;font-weight:600;">${e.message}</p>`;
+  }
 }
 
-html += `
+function renderJobs(jobs) {
+  const el = document.getElementById("jobsContainer");
+  const pageJobs = jobs.slice(0, 3);
+  if (!el) return;
+  const jobCount = document.getElementById("jobCount");
+if (jobCount) {
+    jobCount.textContent = jobs.length;
+} 
+  
+  if (!jobs.length) {
+    el.innerHTML = `<div style="text-align:center;padding:60px;color:#94a3b8;"><div style="font-size:54px;">📭</div><p style="margin-top:16px;font-weight:600;">No matching openings found.</p></div>`;
+    return;
+  }
+  
+  // Renders standard job-cards injected into the 3D grid workflow context seamlessly
+  el.innerHTML = pageJobs.map(job => `
+    <div class="job-card">
+      <div class="job-card-left">
+        <h3>${job.jobTitle || job.title || "Untitled Position"}</h3>
+        <div class="job-meta">
+          <span>📍 ${job.location || "N/A"}</span>
+          <span>💰 ₹${job.salary || "N/A"}</span>
+          <span>🧑‍💻 ${job.experience || "N/A"}</span          <span>🕒 ${job.jobType || job.type || "Full Time"}</span>
+        </div>
+        <div style="margin-top:14px;">
+          <span class="badge badge-blue">${job.jobType || job.type || "Full Time"}</span>
+        </div>
+      </div>
+      <button class="apply-btn" onclick="window.location.href='login.html'">Apply Now →</button>
+    </div>
+  `).join("");
 
-<div style="
-background:white;
-padding:25px;
-border-radius:20px;
-margin-bottom:20px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-border-left:6px solid #0056ff;
-">
+const pagination = document.getElementById("paginationControls");
+if (pagination) {
+    buildPaginationControls(jobs.length);
+}
 
-<h2 style="
-color:#0056ff;
-margin-bottom:15px;
-">
-${job.title}
-</h2>
-<p>
-👤 <b>Posted By:</b>
-${job.postedBy}
-</p>
-<p>
-📍 <b>Location:</b>
-${job.location}
-</p>
+function buildPaginationControls(totalItems) {
+  const pagination = document.getElementById("paginationControls");
+  const totalPages = Math.ceil(totalItems / jobsPerPage);
+  let html = "";
 
-<p>
-💰 <b>Salary:</b>
-₹${job.salary}
-</p>
+  if (currentPage > 1) {
+    html += `<button class="pag-btn" onclick="changePage(${currentPage - 1})">Previous</button>`;
+  }
+  for (let i = 1; i <= totalPages; i++) {
+    html += `<button class="pag-btn ${currentPage === i ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+  }
+  if (currentPage < totalPages) {
+    html += `<button class="pag-btn" onclick="changePage(${currentPage + 1})">Next</button>`;
+  }
+  if (pagination) {
+    pagination.innerHTML = html;
+}
 
-<p>
-🧑‍💻 <b>Experience:</b>
-${job.experience}
-</p>
+window.changePage = function(page) {
+  currentPage = page;
+  renderJobs(allJobs);
+  document.getElementById("job-openings").scrollIntoView({ behavior: "smooth" });
+};
 
-<p>
-🕒 <b>Job Type:</b>
-${job.jobType}
-</p>
+window.searchJobs = function() {
+  const q = document.getElementById("jobSearch").value.toLowerCase();
+  currentPage = 1; 
+  renderJobs(allJobs.filter(j =>
+    (j.jobTitle||j.title||"").toLowerCase().includes(q) ||
+    (j.location||"").toLowerCase().includes(q) ||
+    (j.experience||"").toLowerCase().includes(q)
+  ));
+};
 
-<div style="
-margin-top:10px;
-white-space:pre-line;
-line-height:1.8;
-font-size:16px;
-font-weight:500;
-">
-${job.description}
-</div>
-
-<button
-onclick="window.location.href='login.html'"
-style="
-background:#0056ff;
-color:white;
-padding:14px;
-border:none;
-border-radius:10px;
-font-weight:bold;
-width:100%;
-margin-top:15px;
-cursor:pointer;
-">
-
-Apply Now
-
-</button>
-
-</div>
-
-`;
-
-});
-
-document.getElementById(
-"jobsContainer"
-).innerHTML = html;
-
+async function loadStats() {
+  try {
+    const snap = await getDocs(collection(db, "jobApplications"));
+    document.getElementById("statApps").textContent = snap.size + "+";
+  } catch(e) {}
 }
 
 loadJobs();
+loadStats();
+</script>
+
+<!-- RUNTIME INTERACTIVE HANDLERS -->
+<script>
+function toggleNav() {
+  document.getElementById("mainNav").classList.toggle("open");
+}
+
+function closeApplyModal() {
+  document.getElementById("applyModal").style.display = "none";
+}
+
+function openApplyModal(jobId, jobTitle, jobMeta) {
+  document.getElementById("applyJobId").value = jobId;
+  document.getElementById("modalJobTitle").textContent = jobTitle;
+  document.getElementById("modalJobMeta").textContent = jobMeta || "";
+  document.getElementById("applyModal").style.display = "flex";
+}
+
+function toggleDark() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark") ? "1" : "0");
+}
+
+if (localStorage.getItem("darkMode") === "1") document.body.classList.add("dark");
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener("click", e => {
+    const target = document.querySelector(a.getAttribute("href"));
+    if (target) { 
+      e.preventDefault(); 
+      target.scrollIntoView({ behavior: "smooth" }); 
+    }
+    document.getElementById("mainNav").classList.remove("open");
+  });
+});
+
+// =========================
+// PROFESSIONAL POPUP
+// =========================
+
+function showPopup(message){
+
+    document.getElementById("popupMessage").innerHTML = message;
+
+    document.getElementById("customPopup").style.display = "flex";
+
+}
+
+function closePopup(){
+
+    document.getElementById("customPopup").style.display = "none";
+
+}
 
 </script>
+<!-- Professional Popup -->
+
+<div id="customPopup" class="popup-overlay" style="display:none;">
+
+    <div class="popup-box">
+
+        <img src="1000174411.png" class="popup-logo">
+
+        <h2>Indupalli Services</h2>
+
+        <p id="popupMessage"></p>
+
+        <button onclick="closePopup()">
+
+            OK
+
+        </button>
+
+    </div>
+
+</div>
+</body>
+</html>

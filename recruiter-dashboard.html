@@ -1,842 +1,633 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
 
-<title>
-Recruiter Dashboard
-</title><style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indupalli Services ATS - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #1e293b;
+        }
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .custom-sidebar {
+            width: 270px;
+            background: #0f172a;
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .custom-main {
+            flex: 1;
+            padding: 25px;
+            box-sizing: border-box;
+            background: #f8fafc;
+        }
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 14px;
+            width: 100%;
+            max-width: 320px;
+        }
+        .search-box input {
+            border: none;
+            outline: none;
+            margin-left: 10px;
+            font-size: 14px;
+            width: 100%;
+        }
+        .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .dashboard-table th {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .dashboard-table td {
+            padding: 14px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Calibri,Arial,sans-serif;
-}
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            .custom-sidebar {
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+            .custom-main {
+                padding: 15px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .form-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .top-header {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 15px;
+            }
+            .search-box {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
 
-body{
-background:
-linear-gradient(
-135deg,
-#003366,
-#0056d2,
-#1e90ff
-);
-padding:20px;
-min-height:100vh;
-}
+<body>
 
-.container{
-max-width:1100px;
-margin:auto;
-background:white;
-padding:35px;
-border-radius:25px;
-box-shadow:
-0 8px 25px
-rgba(0,0,0,0.25);
-}
+    <div class="app-container">
 
-.logo{
-width:120px;
-display:block;
-margin:auto;
-margin-bottom:15px;
-}
+        <!-- ==========================================
+        SIDEBAR NAVIGATION PANEL
+        ========================================== -->
+        <aside class="custom-sidebar">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="1000174411.png" alt="Logo" style="width: 40px; height: 40px; border-radius: 8px;">
+                <div>
+                    <h2 style="margin: 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px;">Indupalli</h2>
+                    <p style="margin: 0; font-size: 12px; color: #94a3b8;">Enterprise ATS</p>
+                </div>
+            </div>
 
-h1{
-text-align:center;
-font-size:36px;
-color:#0056d2;
-margin-bottom:10px;
-}
+            <!-- Dynamic Recruiter Identity Target Widget Box -->
+            <div style="background: #1e293b; padding: 15px; border-radius: 10px; text-align: center;">
+                <div id="displayAvatar" style="width: 45px; height: 45px; background: #2563eb; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; font-weight: 700; font-size: 18px;">P</div>
+                <h3 id="displayRecruiterName" style="margin: 0; font-size: 14px; font-weight: 600; color: #fff;">Praveen</h3>
+                <p id="displayRecruiterEmail" style="margin: 2px 0 8px 0; font-size: 12px; color: #94a3b8; word-break: break-all;">recruiter@email.com</p>
+                <span id="displayRoleBadge" style="background: #16a34a; color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: 600;">Senior Recruiter</span>
+            </div>
 
-.subtitle{
-text-align:center;
-color:#666;
-font-size:16px;
-line-height:28px;
-margin-bottom:30px;
-}
+            <nav style="display: flex; flex-direction: column; gap: 8px;">
+                <a href="#" style="display: flex; align-items: center; gap: 12px; color: #fff; text-decoration: none; padding: 12px; background: #2563eb; border-radius: 8px; font-size: 14px; font-weight: 500;">
+                    <i class="fa-solid fa-chart-line"></i> Dashboard Hub
+                </a>
+            </nav>
 
-input,
-textarea,
-select{
-width:100%;
-padding:15px;
-margin:12px 0;
-border:2px solid #d6e4ff;
-border-radius:12px;
-font-size:16px;
-background:#eef4ff;
-}
+            <div id="sidebarLogoutBtn" style="margin-top: auto; color: #ef4444; font-size: 14px; font-weight: 500; cursor: pointer; padding: 10px; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </div>
+        </aside>
 
-textarea{
-height:220px;
-resize:none;
-}
+        <!-- ==========================================
+        MAIN WORKSPACE AREA
+        ========================================== -->
+        <main class="custom-main">
+            
+            <!-- HEADER APP BAR -->
+            <header class="top-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 25px;">
+                <div>
+                    <h1 style="margin: 0; font-size: 22px; font-weight: 700; color: #0f172a;">Recruiter Control Panel</h1>
+                    <p style="margin: 4px 0 0 0; color: #64748b; font-size: 13px;">Track applicant mandates, budget footprints, and live database syncs.</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px; width: auto; justify-content: flex-end;">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search" style="color: #94a3b8;"></i>
+                        <input type="text" placeholder="Search Mandates, Skills, Context...">
+                    </div>
+                    <div style="position:relative;cursor:pointer;padding:10px;">
+    <i class="fa-solid fa-bell"></i>
+    <span id="notificationCount"
+          style="position:absolute;
+                 top:0;
+                 right:0;
+                 background:red;
+                 color:#fff;
+                 border-radius:50%;
+                 min-width:18px;
+                 height:18px;
+                 font-size:11px;
+                 display:none;
+                 text-align:center;
+                 line-height:18px;">0</span>
+</div>
+                    <div class="live-clock" id="liveClock" style="font-weight: 700; background: #f1f5f9; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 6px; font-size: 13px; white-space: nowrap; color: #334155;">00:00:00 am IST</div>
+                </div>
+                            </header>
 
-button{
-width:100%;
-padding:16px;
-background:#0056d2;
-border:none;
-color:white;
-font-size:18px;
-font-weight:bold;
-border-radius:12px;
-cursor:pointer;
-margin-top:10px;
-}
+            <!-- TRACKING KPI COUNTER MATRIX CARDS -->
+            <section class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+                <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 15px;">
+                    <div style="background: #eff6ff; color: #2563eb; padding: 15px; border-radius: 10px; font-size: 20px;"><i class="fa-solid fa-briefcase"></i></div>
+                    <div>
+                        <h2 id="kpiTotalJobs" style="margin:0; font-size: 24px; font-weight:700; color:#0f172a;">0</h2>
+                        <p style="margin:0; color:#64748b; font-size: 13px;">Active Open Positions</p>
+                    </div>
+                </div>
+                <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 15px;">
+                    <div style="background: #f0fdf4; color: #16a34a; padding: 15px; border-radius: 10px; font-size: 20px;"><i class="fa-solid fa-users"></i></div>
+                    <div>
+                        <h2 id="kpiTotalApps" style="margin:0; font-size: 24px; font-weight:700; color:#0f172a;">0</h2>
+                        <p style="margin:0; color:#64748b; font-size: 13px;">Profiles Sourced Today</p>
+                    </div>
+                </div>
+            </section>
 
-button:hover{
-background:#003ea8;
-}
+            <!-- MANDATE FORM PANEL -->
+            <div style="margin-bottom: 30px;">
+                <div style="background:#fff; border-radius:12px; padding:20px; border: 1px solid #e2e8f0;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                        <i class="fa-solid fa-indian-rupee-sign" style="color: #10b981; font-size: 20px;"></i>
+                        <h3 style="margin:0; font-size:16px; font-weight:700; color:#0f172a;">Create New Job Requirement</h3>
+                    </div>
+                    
+                    <form id="jobForm" style="display: block; width: 100%;">
+                        <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div>
+                                    <label style="font-size: 12px; font-weight: 600; color: #64748b; display: block; margin-bottom: 5px;">Designation Title</label>
+                                    <input type="text" id="jobTitle" placeholder="e.g., Senior Full Stack Dev / Tech Lead" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; box-sizing: border-box; outline:none; background:#f8fafc;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; font-weight: 600; color: #64748b; display: block; margin-bottom: 5px;">End Client Account Entity Name</label>
+                                    <input type="text" id="companyName" placeholder="e.g., Wipro Account / HDFC Bank" value="Indupalli Services Pvt Ltd" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; box-sizing: border-box; outline:none; background:#f8fafc;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; font-weight: 600; color: #64748b; display: block; margin-bottom: 5px;">Workplace Location Base</label>
+                                    <input type="text" id="location" placeholder="e.g., HITEC City, Hyderabad / Remote" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; box-sizing: border-box; outline:none; background:#f8fafc;">
+                                </div>
+                            </div>
 
-.ai-btn{
-background:#28a745;
-}
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div>
+                                    <label style="font-size: 12px; font-weight: 600; color: #64748b; display: block; margin-bottom: 5px;">Target Budget (CTC in LPA / Salary)</label>
+                                    <input type="text" id="salary" placeholder="e.g., 12 LPA Fixed" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; box-sizing: border-box; outline:none; background:#f8fafc;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; font-weight: 600; color: #64748b; display: block; margin-bottom: 5px;">Required Experience Bracket</label>
+                                    <input type="text" id="experience" placeholder="e.g., 3 - 5 Years" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; box-sizing: border-box; outline:none; background:#f8fafc;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; font-weight: 600; color: #64748b; display: block; margin-bottom: 5px;">Max Notice Period Allowed</label>
+                                    <select id="maxNotice" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; box-sizing: border-box; outline:none; background:#f8fafc; color: #334155;">
+                                        <option value="Immediate / Serving">Immediate / Serving Notice Only</option>
+                                        <option value="Max 15 Days">Max 15 Days</option>
+                                        <option value="Max 30 Days">Max 30 Days</option>
+                                        <option value="Standard 60-90 Days">Standard 60-90 Days</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 15px;">
+                            <label style="font-size: 12px; font-weight: 600; color: #64748b; display: block; margin-bottom: 5px;">Mandate Specifications (Tech Stack, Requirements & Scope)</label>
+                          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
 
-.ai-btn:hover{
-background:#218838;
-}
-
-.manage-title{
-margin-top:35px;
-color:#0056d2;
-font-size:32px;
-text-align:center;
-}
-
-.job-card,
-.application-card{
-background:white;
-padding:20px;
-border-radius:15px;
-margin-top:15px;
-box-shadow:
-0 4px 10px
-rgba(0,0,0,0.08);
-border-left:6px solid #0056d2;
-}
-
-</style></head><body><div class="container"><img src="1000174411.png"
-class="logo">
-
-<h1>
-Indupalli Services
-</h1><p class="subtitle">
-Recruiter Management Dashboard
-</p>
-<div style="
-display:flex;
-justify-content:space-between;
-gap:10px;
-margin-top:20px;
-margin-bottom:20px;
-"><div style="
-background:#0056d2;
-color:white;
-padding:15px;
-border-radius:12px;
-width:25%;
-text-align:center;
-"><h3>Total Jobs</h3><p id="totalJobs">
-0
-</p></div><div style="
-background:#00c853;
-color:white;
-padding:15px;
-border-radius:12px;
-width:25%;
-text-align:center;
-"><h3>Active Jobs</h3><p id="activeJobs">
-0
-</p></div><div style="
-background:#ff4d4d;
-color:white;
-padding:15px;
-border-radius:12px;
-width:25%;
-text-align:center;
-"><h3>Archived Jobs</h3><p id="archivedJobs">
-0
-</p></div><div style="
-background:#ff9800;
-color:white;
-padding:15px;
-border-radius:12px;
-width:25%;
-text-align:center;
-"><h3>Applications</h3><p id="totalApplications">
-0
-</p></div></div><div style="
-display:flex;
-justify-content:space-between;
-gap:10px;
-margin-bottom:25px;
-"><div style="
-background:#673ab7;
-color:white;
-padding:15px;
-border-radius:12px;
-width:50%;
-text-align:center;
-"><h3>Interview Scheduled</h3><p id="totalInterviews">
-0
-</p></div><div style="
-background:#4caf50;
-color:white;
-padding:15px;
-border-radius:12px;
-width:50%;
-text-align:center;
-"><h3>Selected Candidates</h3><p id="totalSelected">
-0
-</p></div></div>
-<input
-type="text"
-id="jobTitle"
-placeholder="Job Title">
+<label style="font-size:12px;font-weight:600;color:#64748b;">
+AI Job Description Assistant
+</label>
 
 <button
-class="ai-btn"
-onclick="generateJD()">
-
-Generate JD with AI
-
-</button><input
-type="text"
-id="location"
-placeholder="Location">
-
-<input
-type="number"
-id="salary"
-placeholder="Salary in ₹ INR">
-
-<input
-type="text"
-id="experience"
-placeholder="Experience Required">
-
-<select id="jobType"><option>
-Full Time
-</option><option>
-Part Time
-</option><option>
-Contract
-</option><option>
-Remote
-</option></select><textarea
-id="description"
-placeholder="Job Description"
-maxlength="450">
-</textarea><p id="wordCount"
+type="button"
+onclick="openAI()"
 style="
-text-align:right;
-color:gray;
-font-size:14px;
-">
-0 / 450
-</p><button onclick="addJob()">
-Post Job
-</button><h2 class="manage-title">
-Candidate Applications
-</h2><div id="applicationList"
-style="
-margin-top:20px;
-padding:20px;
-border-radius:15px;
-background:#eef4ff;
-border:2px solid #d6e4ff;
-">No applications received yet.
+background:#2563eb;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+font-size:13px;
+font-weight:600;">
 
-</div><h2 class="manage-title">
-Manage Posted Jobs
-</h2><div id="jobList"
-style="
-margin-top:20px;
-padding:20px;
-border-radius:15px;
-background:#eef4ff;
-border:2px solid #d6e4ff;
-">No jobs posted yet.
+🤖 Generate with AI
+
+</button>
 
 </div>
-<div id="popup"
+                            <textarea id="jobDescription" placeholder="Provide details like Tech Stack, Target Budget (CTC in LPA), Max Notice Period allowed..." rows="4" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; box-sizing: border-box; display: block; min-height: 100px; resize: vertical; outline:none; background:#f8fafc; font-family: inherit;"></textarea>
+                        </div>
+                        
+                        <button type="submit" style="margin-top: 20px; padding: 14px 24px; background: #10b981; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; width: 100%; display: block; font-size: 15px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);">
+                            <i class="fa-solid fa-share-nodes" style="margin-right: 5px;"></i> + POST JOB
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- INBOUND CANDIDATE FEED MATRIX PANEL -->
+            <div style="margin-bottom: 30px;">
+                <div style="background:#fff; border-radius:12px; padding:20px; border: 1px solid #e2e8f0;">
+                    <h3 style="margin:0 0 15px 0; font-size:16px; font-weight:700; color:#0f172a;">Inbound Resumes (Naukri, Referrals & Portals)</h3>
+                    
+                    <button class="btn btn-primary" onclick="window.simulateCandidateApply()" style="margin-bottom: 20px; padding: 12px 18px; background: #2563eb; color: #fff; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size:13px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Sim Inbound Portal Drop
+                    </button>
+
+                    <div style="overflow-x: auto; width:100%;">
+                        <table class="dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Target Mandate</th>
+                                    <th>Candidate Name</th>
+                                    <th>Profile Sourced From</th>
+                                    <th>Notice Period Status</th>
+                                    <th>Quick Chat Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appsContainer">
+                                <tr><td colspan="5" style="text-align:center; padding:15px; color:#64748b;">Loading candidate pools stream...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIVE REQUIREMENTS INVENTORY COMPONENT -->
+            <div style="margin-bottom: 40px;">
+                <div style="background:#fff; border-radius:12px; padding:20px; border: 1px solid #e2e8f0;">
+                    <h3 style="margin:0 0 15px 0; font-size:16px; font-weight:700; color:#0f172a;">Current Requirements & Open Roles</h3>
+                    <div style="overflow-x: auto; width:100%;">
+                        <table class="dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Requirement Name</th>
+                                    <th>Base Location Base</th>
+                                    <th>Experience Required</th>
+                                    <th>Budget Parameters (CTC)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="jobsContainer">
+                                <tr><td colspan="5" style="text-align:center; padding:15px; color:#64748b;">Loading active requirements inventory...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+            ADMIN-ONLY: PAYMENT REQUESTS APPROVAL PANEL
+            ========================================== -->
+            <div id="paymentRequestsPanel" style="display:none; margin-top: 30px;">
+                <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 18px;">
+                        <div>
+                            <h2 style="margin:0; font-size: 17px; font-weight:700; color:#0f172a;">
+                                💳 Payment Requests
+                            </h2>
+                            <p style="margin:4px 0 0 0; color:#64748b; font-size: 13px;">
+                                Review and approve pending UPI payment confirmations from recruiters and candidates.
+                            </p>
+                        </div>
+                        <span id="pendingRequestCount" style="background:#fff3e0;color:#ff7a00;font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px;">0 pending</span>
+                    </div>
+                    <table style="width:100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background:#f8fafc;">
+                                <th style="padding:10px 12px;text-align:left;font-size:12px;color:#64748b;border-bottom:1px solid #e2e8f0;">Email</th>
+                                <th style="padding:10px 12px;text-align:left;font-size:12px;color:#64748b;border-bottom:1px solid #e2e8f0;">Role</th>
+                                <th style="padding:10px 12px;text-align:left;font-size:12px;color:#64748b;border-bottom:1px solid #e2e8f0;">Amount</th>
+                                <th style="padding:10px 12px;text-align:left;font-size:12px;color:#64748b;border-bottom:1px solid #e2e8f0;">Requested</th>
+                                <th style="padding:10px 12px;text-align:left;font-size:12px;color:#64748b;border-bottom:1px solid #e2e8f0;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentRequestsContainer">
+                            <tr><td colspan="5" style="text-align:center;padding:20px;color:#94a3b8;">Loading payment requests...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Script Routing Configuration -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="recruiter-payment-check.js"></script>
+    <script type="module" src="chat.js"></script>
+    <script type="module" src="dashboard.js"></script>
+<!-- =========================
+Gemini AI Popup
+========================= -->
+
+<div id="aiModal"
 style="
 display:none;
 position:fixed;
-top:0;
 left:0;
+top:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,.6);
+z-index:99999;
 justify-content:center;
-align-items:center;
-z-index:9999;
-"><div style="
-background:white;
-padding:30px;
-border-radius:20px;
-width:90%;
-max-width:400px;
-text-align:center;
-box-shadow:
-0 10px 30px rgba(0,0,0,0.3);
-"><img src="1000174411.png"
-style="
-width:90px;
-margin-bottom:15px;
-">
+align-items:center;">
 
-<h2 style="
-color:#0056d2;
-margin-bottom:10px;
-">
-Indupalli Services
-</h2><p id="popupText"
+<div
 style="
-font-size:16px;
-line-height:1.8;
-color:#333;
-margin-bottom:20px;
-">
-</p><button
-onclick="closePopup()"
+background:white;
+width:90%;
+max-width:900px;
+border-radius:12px;
+padding:25px;
+max-height:90vh;
+overflow:auto;">
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+
+<h2>🤖 Gemini AI Assistant</h2>
+
+<button
+onclick="closeAI()"
 style="
-background:#0056d2;
+background:red;
 color:white;
 border:none;
-padding:12px 30px;
-border-radius:10px;
-font-size:16px;
-cursor:pointer;
-">
-OK
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;">
+
+✖
+
 </button>
 
-</div></div><script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-getFirestore,
-collection,
-addDoc,
-getDocs,
-updateDoc,
-doc
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-
-apiKey:
-"AIzaSyAJWdsNykkCp9tJfoBiZNoVfWT0orM6BHA",
-
-authDomain:
-"indupalli-services-18404.firebaseapp.com",
-
-projectId:
-"indupalli-services-18404",
-
-storageBucket:
-"indupalli-services-18404.firebasestorage.app",
-
-messagingSenderId:
-"187485195719",
-
-appId:
-"1:187485195719:web:a2f422b12c47ea2d549de2"
-
-};
-
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getFirestore(app);
-const description =
-document.getElementById(
-"description"
-);
-
-const wordCount =
-document.getElementById(
-"wordCount"
-);
-
-description.addEventListener(
-"input",
-function(){
-
-wordCount.innerText =
-description.value.length +
-" / 450";
-
-});
-
-window.generateJD =
-function(){
-
-const title =
-document.getElementById(
-"jobTitle"
-).value.trim();
-
-if(title === ""){
-
-showPopup(
-"Please enter a Job Title first."
-);
-
-return;
-
-}
-
-document.getElementById(
-"description"
-).value =
-
-"We are hiring a " +
-title +
-" to join our growing team.\n\n" +
-
-"Key Responsibilities:\n" +
-"• Perform day-to-day responsibilities\n" +
-"• Collaborate with internal teams\n" +
-"• Meet deadlines and quality standards\n\n" +
-
-"Required Skills:\n" +
-"• Communication Skills\n" +
-"• Teamwork\n" +
-"• Problem Solving\n\n" +
-
-"Preferred Qualifications:\n" +
-"• Relevant experience in " +
-title;
-
-wordCount.innerText =
-document.getElementById(
-"description"
-).value.length +
-" / 450";
-
-};
-
-window.addJob =
-async function(){
-
-const title =
-document.getElementById(
-"jobTitle"
-).value.trim();
-
-const jobLocation =
-document.getElementById(
-"location"
-).value.trim();
-
-const salary =
-document.getElementById(
-"salary"
-).value.trim();
-
-const experience =
-document.getElementById(
-"experience"
-).value.trim();
-
-const jobType =
-document.getElementById(
-"jobType"
-).value;
-
-const description =
-document.getElementById(
-"description"
-).value.trim();
-if(
-title === "" ||
-jobLocation === "" ||
-salary === "" ||
-experience === "" ||
-description === ""
-){
-
-showPopup(
-"Please complete all required job details before posting."
-);
-
-return;
-
-}
-
-try{
-
-await addDoc(
-collection(db,"jobs"),
-{
-title,
-location:jobLocation,
-salary,
-experience,
-jobType,
-description,
-
-postedBy:
-localStorage.getItem(
-"recruiterEmail"
-) || "Recruiter",
-
-postedOn:
-new Date()
-.toLocaleDateString(
-"en-GB",
-{
-day:"numeric",
-month:"short",
-year:"numeric"
-}
-),
-
-isArchived:false
-}
-);
-
-showPopup(
-"Job posted successfully."
-);
-
-setTimeout(()=>{
-location.reload();
-},1000);
-
-}catch(error){
-
-showPopup(
-error.message
-);
-
-}
-
-};
-window.onload = async function(){
-
-const jobList =
-document.getElementById(
-"jobList"
-);
-
-const applicationList =
-document.getElementById(
-"applicationList"
-);
-
-jobList.innerHTML = "";
-applicationList.innerHTML = "";
-
-let totalJobs = 0;
-let activeJobs = 0;
-let archivedJobs = 0;
-
-let totalApplications = 0;
-let totalInterviews = 0;
-let totalSelected = 0;
-
-const isAdmin =
-localStorage.getItem(
-"isAdmin"
-);
-
-const recruiterEmail =
-localStorage.getItem(
-"recruiterEmail"
-);
-
-const jobsSnapshot =
-await getDocs(
-collection(db,"jobs")
-);
-
-jobsSnapshot.forEach((job)=>{
-
-const data =
-job.data();
-
-totalJobs++;
-
-if(data.isArchived){
-archivedJobs++;
-}else{
-activeJobs++;
-}
-
-if(
-isAdmin !== "true" &&
-data.postedBy !== recruiterEmail
-){
-return;
-}
-
-jobList.innerHTML += `
-
-<div class="job-card"><h3>${data.title}</h3><p>
-<b>Posted By:</b>
-${data.postedBy}
-</p><p>
-<b>Posted On:</b>
-${data.postedOn}
-</p><p>
-<b>Location:</b>
-${data.location}
-</p><p>
-<b>Salary:</b>
-₹${data.salary}
-</p><p>
-<b>Experience:</b>
-${data.experience}
-</p><p>
-<b>Status:</b>
-${data.isArchived ? "Archived" : "Active"}
-</p></div>`;
-
-});
-
-document.getElementById(
-"totalJobs"
-).innerText = totalJobs;
-
-document.getElementById(
-"activeJobs"
-).innerText = activeJobs;
-
-document.getElementById(
-"archivedJobs"
-).innerText = archivedJobs;
-const applicationSnapshot =
-await getDocs(
-collection(db,"jobApplications")
-);
-
-applicationSnapshot.forEach((application)=>{
-
-const data =
-application.data();
-
-totalApplications++;
-
-if(
-data.status ===
-"Interview Scheduled"
-){
-totalInterviews++;
-}
-
-if(
-data.status ===
-"Selected"
-){
-totalSelected++;
-}
-
-applicationList.innerHTML += `
-
-<div class="application-card"><h3>
-${data.fullname}
-</h3><p>
-<b>Email:</b>
-${data.email}
-</p><p>
-<b>Phone:</b>
-${data.phone}
-</p><p>
-<b>Job Title:</b>
-${data.jobTitle}
-</p><p>
-<b>Application ID:</b>
-${data.applicationId}
-</p><p>
-<b>Status:</b>
-${data.status || "New Application"}
-</p><select
-id="status-${application.id}">
-
-<option>New Application</option>
-<option>Under Review</option>
-<option>Interview Scheduled</option>
-<option>Selected</option>
-<option>Rejected</option></select><button
-onclick="updateApplicationStatus('${application.id}')">
-
-Update Status
-
-</button></div>`;
-
-});
-
-document.getElementById(
-"totalApplications"
-).innerText =
-totalApplications;
-
-document.getElementById(
-"totalInterviews"
-).innerText =
-totalInterviews;
-
-document.getElementById(
-"totalSelected"
-).innerText =
-totalSelected;
-window.updateApplicationStatus =
-async function(applicationId){
-
-const status =
-document.getElementById(
-"status-" + applicationId
-).value;
-
-try{
-
-await updateDoc(
-doc(
-db,
-"jobApplications",
-applicationId
-),
-{
-status:status,
-updatedAt:new Date()
-}
-);
-
-showPopup(
-"Application status updated successfully."
-);
-
-setTimeout(()=>{
-location.reload();
-},1000);
-
-}catch(error){
-
-showPopup(
-error.message
-);
-
-}
-
-};
-
-window.archiveJob =
-async function(jobId){
-
-try{
-
-await updateDoc(
-doc(
-db,
-"jobs",
-jobId
-),
-{
-isArchived:true
-}
-);
-
-showPopup(
-"Job archived successfully."
-);
-
-setTimeout(()=>{
-location.reload();
-},1000);
-
-}catch(error){
-
-showPopup(
-error.message
-);
-
-}
-
-};
-
-window.unarchiveJob =
-async function(jobId){
-
-try{
-
-await updateDoc(
-doc(
-db,
-"jobs",
-jobId
-),
-{
-isArchived:false
-}
-);
-
-showPopup(
-"Job activated successfully."
-);
-
-setTimeout(()=>{
-location.reload();
-},1000);
-
-}catch(error){
-
-showPopup(
-error.message
-);
-
-}
-
-};
-if(jobList.innerHTML === ""){
-
-jobList.innerHTML = `
-
-<div class="job-card">
-No jobs posted yet.
 </div>
-`;}
 
-if(applicationList.innerHTML === ""){
+<br>
 
-applicationList.innerHTML = `
+<p style="font-weight:600;">
+Tell AI what kind of Job Description you need
+</p>
 
-<div class="application-card">
-No applications received yet.
+<textarea
+
+id="aiPrompt"
+
+rows="10"
+
+style="
+width:100%;
+padding:15px;
+border-radius:10px;
+border:1px solid #ccc;"
+
+placeholder="Example:
+
+Need Java Developer
+
+Location: Hyderabad
+
+Experience: 5 Years
+
+Skills:
+Spring Boot
+Microservices
+AWS
+
+Generate complete Job Description."></textarea>
+
+<br><br>
+
+<button
+id="generateAI"
+type="button"
+onclick="generateAI()"
+style="
+background:#2563eb;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:8px;
+cursor:pointer;">
+
+✨ Generate using Gemini
+
+</button>
+
+<br><br>
+
+<div
+id="aiResult"
+style="
+width:100%;
+min-height:350px;
+padding:15px;
+border-radius:10px;
+border:1px solid #ccc;
+background:#fff;
+overflow:auto;
+line-height:1.7;
+font-size:15px;
+white-space:pre-wrap;">
+Waiting for AI...
 </div>
-`;}
 
-};
+<br><br>
 
-window.showPopup =
-function(message){
+<button
 
-document.getElementById(
-"popupText"
-).innerHTML = message;
+onclick="insertAIResult()"
 
-document.getElementById(
-"popup"
-).style.display = "flex";
+style="
+background:#10b981;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:8px;">
 
-};
+Use this Job Description
 
-window.closePopup =
-function(){
+</button>
 
-document.getElementById(
-"popup"
-).style.display = "none";
+</div>
 
-};
+</div>
+<script>
+function openAI() {
+    document.getElementById("aiModal").style.display = "flex";
 
-</script></body></html>
+    // Auto-fill prompt using the form values
+    document.getElementById("aiPrompt").value = `
+Job Title: ${document.getElementById("jobTitle").value}
+Company: ${document.getElementById("companyName").value}
+Location: ${document.getElementById("location").value}
+Experience: ${document.getElementById("experience").value}
+Salary: ${document.getElementById("salary").value}
+Notice Period: ${document.getElementById("maxNotice").value}
+
+Create a professional job description.
+`;
+}
+
+function closeAI() {
+    document.getElementById("aiModal").style.display = "none";
+}
+
+function insertAIResult() {
+document.getElementById("jobDescription").value =
+document.getElementById("aiResult").innerText;
+
+    closeAI();
+}
+async function generateAI() {
+
+    const apiKey = "AQ.Ab8RN6LDWjntk4V44nTnUal2lMAA_0jJIsT_9C71LIyBXaRM8w";
+
+    const prompt = document.getElementById("aiPrompt").value;
+    const result = document.getElementById("aiResult");
+
+    result.innerText = "Generating Job Description...";
+
+    try {
+
+        const response = await fetch(
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: `
+
+You are an expert recruiter.
+
+${prompt}
+
+Create a modern, ATS-friendly Job Description.
+
+Rules:
+
+• Maximum 250 words.
+
+• Start with a short introduction.
+
+• Then Responsibilities.
+
+• Then Required Skills.
+
+• Then Experience.
+
+• Then Salary.
+
+• Then Location.
+
+• Use bullet points.
+
+• No Job Summary heading.
+
+• No Benefits section.
+
+• No Equal Opportunity statement.
+
+• No How to Apply.
+
+• Return only the final Job Description.
+
+`
+                                }
+                            ]
+                        }
+                    ]
+                })
+            }
+        );
+        if (!response.ok) {
+    const error = await response.text();
+    result.innerText = error;
+    return;
+}
+
+        const data = await response.json();
+
+        if (data.candidates &&
+            data.candidates.length > 0) {
+
+          result.innerText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").replace(/\*/g, "");
+
+        } else {
+
+            result.innerText =
+                JSON.stringify(data, null, 2);
+
+        }
+
+    } catch (error) {
+
+        result.innerText =
+            "Error: " + error.message;
+
+    }
+
+}
+</script>
+</body>
+</html>
